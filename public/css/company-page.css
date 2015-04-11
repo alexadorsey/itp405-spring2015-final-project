@@ -1,0 +1,164 @@
+.site-wrapper-inner {
+    /*vertical-align: middle;*/
+    /* padding-top: 0px */
+    padding-top: 0px;
+}
+
+#review-btn {
+  width: 100px;
+  position:fixed;
+  top:48px;
+  left:89%;
+  padding: 3px 0;
+  z-index:1;
+  /*background-color:red;
+  color:white;
+  width: 100px;
+  position:fixed;
+  top:48px;
+  left:89%;
+  padding: 3px 0;
+  z-index:1;
+  border-bottom-left-radius: 1em;
+  border-bottom-right-radius: 1em;
+  -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,.3);
+          box-shadow: inset 0 0 5px rgba(0,0,0,.3);
+          */
+}
+
+#title-recommend {
+  font-size: 20pt;
+}
+
+#title-recommend-icon {
+  font-size: 20pt;
+  margin-right: 12pt;
+}
+
+.title-text {
+  font-size:14pt;
+}
+
+.title-icon {
+  font-size: 14pt;
+  margin-right: 15px;
+}
+
+#reviews {
+  text-align: left;
+  /*margin-top: 30px;*/
+  float:right;
+  width:66%;
+  border-left: 1px solid #e3e3e3;
+  padding: 0 20px;
+}
+
+.review-title {
+  font-size: 15pt;
+}
+
+.review {
+  margin-bottom: 50px;
+}
+
+.review-icon {
+  font-size: 13pt;
+  padding-right: 15pt;
+}
+
+.review table {
+  width: 97%;
+  margin-left: 3%;
+  border-left: 1px solid white;
+  margin-top: 10px;
+}
+
+th,td {
+  padding: 15px;
+}
+
+.pro {
+  font-size: 13pt;
+}
+
+.intern-date {
+  float:left;
+}
+
+.post-date {
+  float:right;
+  font-size: 10pt;
+  color: #b8b8b8;
+  text-shadow:none;
+}
+
+.company-img {
+  width: 200px;
+  height: 150px;
+  vertical-align: middle;
+}
+
+#stats {
+}
+
+#company-stats {
+  float:left;
+  width: 30%;
+}
+
+#images {
+  width: 100%;
+}
+
+.img-box {
+  overflow: hidden;
+  width: 130px;
+  height:130px;
+  margin: 10px;
+  border: 2px solid #fff
+}
+
+.img-left {
+  float:left;
+}
+
+.img-right {
+  float:right;
+}
+
+.inner-body {
+  padding: 0 10%;
+}
+
+
+#company-header a{
+  color: #000
+}
+
+#company-title {
+  font-size: 60pt;
+  float:left;
+  margin-top: 70px;
+  color:#444;
+  width: 100%;
+  /*text-shadow: 0 1px 3px rgba(0,0,0,1);*/
+}
+
+#company-logo {
+  width: 30px;
+  height:30px;
+  margin-bottom: 20px;
+  margin-left: -10px;
+}
+
+.pos-review-rating {
+  color: green
+}
+
+.neg-review-rating {
+  opacity: 0.3
+}
+
+.clear {
+  clear:both
+}
