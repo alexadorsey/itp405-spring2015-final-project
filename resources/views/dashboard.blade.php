@@ -4,7 +4,7 @@
 @section('content')
     <h1>Dashboard</h1>
         
-    Welcome, {{ Auth::user()->first_name }}    
+    <p>Welcome, {{ Auth::user()->first_name }}</p>  
     
     <br/>
     <a href="{{ url('logout') }}">Logout</a>

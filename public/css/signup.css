@@ -1,0 +1,12 @@
+.site-wrapper-inner {
+    padding-top: 70px;
+}
+
+form {
+    width: 300px;
+    margin: auto;
+}
+
+.error-message {
+    color: red;
+}

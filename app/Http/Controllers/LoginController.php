@@ -53,8 +53,7 @@ class LoginController extends Controller {
 		$remember_me = Request::input('remember_me') == 'on' ? true : false;
     
 		if (Auth::attempt($credentials, $remember_me)) {
-			return redirect()->intended(); // redirect where the user intended to go before login
-			 //return redirect('dashboard'); 
+			return redirect()->intended('dashboard');
 		}
 		return redirect('login')->with('fail', 'Email and/or password incorrect.');
 	}

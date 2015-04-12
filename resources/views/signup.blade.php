@@ -1,5 +1,10 @@
 @extends('layout')
 
+@section('assets')
+	<link rel="stylesheet" href="{{ asset('css/signup.css') }}" type="text/css">
+@endsection
+
+
 @section('hello-image')	
 	<img id="hello-pic" src="{{ asset('img/awesome.png') }}">
 @endsection
@@ -7,10 +12,6 @@
 
 @section('content')
     <h1>Sign Up</h1>
-        
-    @foreach($errors->all() as $error)
-        <p>{{ $error }}</p>
-    @endforeach
     
     <form method="post">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -40,8 +41,13 @@
             <input type="password" id="password_confirmation" name="password_confirmation" class="form-control"> 
         </div>
             
-        <input type="submit" value="Sign Up" class="btn btn-primary">
+        @foreach($errors->all() as $error)
+            <p class="error-message">{{ $error }}</p>
+        @endforeach
+            
+        <input type="submit" value="Sign Up" class="btn btn-danger">
         
     </form>
+
 @endsection
 

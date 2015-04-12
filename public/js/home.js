@@ -28,9 +28,3 @@ function getLocationValue() {
     var location_id = val.attr('id');
     $('#location-id').val(location_id);
 }
-
-function pressSubmit() {
-	console.log("HERE!!");
-	var x = $('#company-input').val();
-	console.log("X is " + x);
-}
