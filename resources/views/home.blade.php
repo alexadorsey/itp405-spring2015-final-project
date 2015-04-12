@@ -2,7 +2,7 @@
 
 @section('hello-image')	
 	<img id="hello-pic" src="{{ asset('img/awesome.png') }}">
-@endsection
+@stop
 
 
 @section('content')
@@ -50,9 +50,9 @@
 			</p>
 		</div>
 	</form>
-@endsection			
+@stop			
 
 	
 @section('javascript')
 	<script type="text/javascript" src="{{ asset('js/home.js') }}"></script>
-@endsection
+@stop

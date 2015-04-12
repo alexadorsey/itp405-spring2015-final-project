@@ -2,12 +2,12 @@
 
 @section('assets')
 	<link rel="stylesheet" href="{{ asset('css/signup.css') }}" type="text/css">
-@endsection
+@stop
 
 
 @section('hello-image')	
 	<img id="hello-pic" src="{{ asset('img/awesome.png') }}">
-@endsection
+@stop
 
 
 @section('content')
@@ -41,4 +41,4 @@
         <input type="submit" value="Login" class="btn btn-danger">
         
     </form>
-@endsection
+@stop

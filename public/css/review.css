@@ -1,0 +1,10 @@
+.site-wrapper-inner {
+    padding-top: 70px;
+}
+
+#questions {
+    text-align: center;
+    width: 600px;
+    margin: auto;
+    margin-top: 40px;
+}

@@ -3,14 +3,11 @@
 @section('assets')
     <link rel="stylesheet" href="{{ asset('css/company-page.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('fancyBox/source/jquery.fancybox.css') }}" type="text/css" media="screen" />
-@endsection
+@stop
 
 
 @section('content')
-	<form method="post" action="review">
-	
-		<input type="hidden" name="company_id" value="{{ $company->id }}">
-		<input type="hidden" name="_token" value="{{ csrf_token() }}">
+	<form method="get" action="review">
 		
 		<div id="review-btn">
 			<button type="submit">
@@ -108,7 +105,7 @@
 		</div>
 		<div class="clear"></div>
 	</div>
-@endsection
+@stop
 
 
 @section('javascript')
@@ -116,7 +113,7 @@
     <script type="text/javascript" src="{{ asset('fancyBox/source/jquery.fancybox.pack.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('js/home.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('js/company-page.js') }}"></script>
-@endsection
+@stop
 
 
 
