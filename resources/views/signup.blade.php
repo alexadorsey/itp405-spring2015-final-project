@@ -1,0 +1,47 @@
+@extends('layout')
+
+@section('hello-image')	
+	<img id="hello-pic" src="{{ asset('img/awesome.png') }}">
+@endsection
+
+
+@section('content')
+    <h1>Sign Up</h1>
+        
+    @foreach($errors->all() as $error)
+        <p>{{ $error }}</p>
+    @endforeach
+    
+    <form method="post">
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        
+        <div class="form-group">
+            <label for="first-name">First Name</label> <!-- for must be same as input id to put focus on name-->
+            <input type="text" id="first-name" name="first-name" class="form-control"> 
+        </div>
+        
+        <div class="form-group">
+            <label for="last-name">Last Name</label> <!-- for must be same as input id to put focus on name-->
+            <input type="text" id="last-name" name="last-name" class="form-control"> 
+        </div>
+            
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" class="form-control"> 
+        </div>
+            
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" class="form-control"> 
+        </div>
+        
+        <div class="form-group">
+            <label for="password_confirmation">Confirm password</label> <!-- password_confirmation to work with laravel -->
+            <input type="password" id="password_confirmation" name="password_confirmation" class="form-control"> 
+        </div>
+            
+        <input type="submit" value="Sign Up" class="btn btn-primary">
+        
+    </form>
+@endsection
+

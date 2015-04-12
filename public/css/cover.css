@@ -191,3 +191,7 @@ button {
   top: 100px;
   left: 160px;
 }
+
+a, a:active, a:focus {
+  outline: none;
+}

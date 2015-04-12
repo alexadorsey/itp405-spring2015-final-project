@@ -1,11 +1,15 @@
 <?php namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
+use App\Http\Controllers\View;
 use App\Models\Company;
 use App\Models\Position;
 use App\Models\Location;
 use App\Models\Review;
 use App\Models\Company_Location;
+use Auth;
+
 
 class HomeController extends Controller {
 
@@ -37,18 +41,28 @@ class HomeController extends Controller {
 	 *
 	 * @return Response
 	 */
+	
+	
+	
+	/**************************************/
+	/* Homepage */
 	public function home() {
 		$companies = Company::all();
 		$positions = Position::all();
 		$locations = Location::all();
     
 		return view('home', [
+			'title' => 'Home',
 			'companies' => $companies,
 			'positions' => $positions,
 			'locations' => $locations
         ]);
     }
-    
+
+	
+	
+    /**************************************/
+	/* Search Results */
     public function search(Request $request) {
         $company_id = $request->input('company-id');
 		$position_id = $request->input('position-id');
@@ -62,42 +76,18 @@ class HomeController extends Controller {
 		if ($company_id != "") {
 			$company = Company::find($company_id);
 			$reviews = Company::find($company_id)->reviews()->get();
-			
+			$reviews->load('position', 'location');
+
 			
 			/* Company Statistics */
 			Company::setStats($reviews);
-			/*
-			$num_reviews = count($reviews);
-			$recommend_count = 0;
-			$compensation_count = 0;
-			$fair_hours_count = 0;
-			$future_work_count = 0;
-			
-			foreach ($reviews as $review) {
-				if ($review->recommend == 1) {
-					$recommend_count++;
-				}
-				if ($review->compensation == 1) {
-					$compensation_count++;
-				}
-				if ($review->fair_hours == 1) {
-					$fair_hours_count++;
-				}
-				if ($review->future_work == 1) {
-					$future_work_count++;
-				}
-			}
-			
-			$recommend_rating = ($recommend_count/$num_reviews * 100);
-			$compensation_rating = $compensation_count/$num_reviews;
-			$fair_hours_rating = $fair_hours_count/$num_reviews * 100;
-			$future_work_rating = $future_work_count/$num_reviews;
-			*/
+
 			return view('search', [
+				'title' => $company->name,
 				'company' => $company,
 				'reviews' => $reviews,
-				'position' => $position,
-				'location' => $location,
+				//'position' => $position,
+				//'location' => $location,
 				'images' => $images,
 				'recommend_rating' => Company::$recommend_rating,
 				'compensation_rating' => Company::$compensation_rating,
@@ -121,9 +111,41 @@ class HomeController extends Controller {
 		}
 		
 		return view('search', [
+			'title' => 'Search Results',
 			'companies' => $companies,
 		]);
 		
     }
+	
+	
+	/**************************************/
+	/* Review */
+	public function review(Request $request) {
+		if (!Auth::check()) {
+			 return redirect('login');
+		}
+		
+		$company_id = \Illuminate\Support\Facades\Request::input('company_id');
+		$company = Company::find($company_id);
+		
+		return view('review', [
+			'title' => 'Review ' . $company->name,
+			'company' => $company
+        ]);
+    }
+	
+	
+		
+	/**************************************/
+	/* Dashboard */
+	public function dashboard() {
+		if (!Auth::check()) {
+			 return redirect('login');
+		}
+		
+		return view('dashboard', [
+			'title' => 'Dashboard'
+		]);
+	}
 
 }

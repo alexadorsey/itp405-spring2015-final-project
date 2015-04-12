@@ -13,6 +13,16 @@
 
 Route::get('home', 'HomeController@home');
 Route::get('search', 'HomeController@search');
+Route::get('dashboard', 'HomeController@dashboard');
+
+//Route::post('review', 'HomeController@review');
+Route::post('review', 'HomeController@review');
+
+Route::get('signup', 'LoginController@signup');
+Route::post('signup', 'LoginController@postSignup');
+Route::get('login', 'LoginController@login');
+Route::post('login', 'LoginController@postLogin');
+Route::get('logout', 'LoginController@logout');
 
 /*
 Route::get('/', 'WelcomeController@index');
