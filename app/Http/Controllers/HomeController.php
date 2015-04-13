@@ -7,7 +7,8 @@ use App\Models\Company;
 use App\Models\Position;
 use App\Models\Location;
 use App\Models\Review;
-use App\Models\Company_Location;
+use App\Models\City;
+use App\Models\State;
 use Auth;
 
 
@@ -49,13 +50,15 @@ class HomeController extends Controller {
 	public function home() {
 		$companies = Company::all();
 		$positions = Position::all();
-		$locations = Location::all();
+		$cities = City::all();
+		$states = State::all();
     
 		return view('home', [
 			'title' => 'Home',
 			'companies' => $companies,
 			'positions' => $positions,
-			'locations' => $locations
+			'cities' => $cities,
+			'states' => $states
         ]);
     }
 
@@ -63,13 +66,39 @@ class HomeController extends Controller {
 	
     /**************************************/
 	/* Search Results */
-    public function search(Request $request) {
-        $company_id = $request->input('company-id');
+	
+	public function search(Request $request) {
+		
 		$position_id = $request->input('position-id');
-		$location_id = $request->input('location-id');
+		$location_val = $request->input('location-input');
 		
 		$position = Position::find($position_id);
-		$location = Location::find($location_id);
+		$companies = Position::find($position_id)->companies()->get();
+		
+		
+		return view('search-position', [
+			'title' => 'Search Position',
+			'position' => $position,
+			'companies' => $companies
+        ]);
+        
+		/*
+		return view('search-position', [
+			'title' => 'Search Position'
+		]);
+		*/
+	}
+	
+	
+	
+    public function search2(Request $request) {
+        $company_id = $request->input('company-id');
+		$position_id = $request->input('position-id');
+		$city_name = $request->input('City');
+		$state_name = $request->input('State');
+		
+		
+		$position = Position::find($position_id);
 		
 		$images = Company::find($company_id)->images()->get();
 		
@@ -132,7 +161,8 @@ class HomeController extends Controller {
 		*/
 		$companies = Company::all();
 		$positions = Position::all();
-		$locations = Location::all();
+		$cities = City::all();
+		$states = State::all();
 		
 		/*
 		$url = "https://api.insideview.com/api/v1/companies";
@@ -144,7 +174,8 @@ class HomeController extends Controller {
 			'title' => 'Review an Intership',
 			'companies' => $companies,
 			'positions' => $positions,
-			'locations' => $locations
+			'cities' => $cities,
+			'states' => $states
         ]);
     }
 	
@@ -158,50 +189,81 @@ class HomeController extends Controller {
 		
 		$company_id = $request->input('company-id');
 		$position_id = $request->input('position-id');
-		$city = $request->input('city-id');
-		$state = $request->input('state-id');
+		$city_name = $request->input('City');
+		$state_name = $request->input('State');
 		
-		$start_month = $request->input('Start Month');
-		$start_year = $request->input('Start Year');
-		$end_month = $request->input('End Month');
-		$end_year = $request->input('End Year');
+		$start_month = $request->input('Start_Month');
+		$start_year = $request->input('Start_Year');
+		$end_month = $request->input('End_Month');
+		$end_year = $request->input('End_Year');
 		
-		$pay = $request->input('Fair Pay');
-		$hours = $request->input('Good Hours');
-		$future = $request->input('Future');
+		$pay = $request->input('Good_Pay');
+		$hours = $request->input('Fair_Hours');
+		$future = $request->input('Future_Work');
 		$recommend = $request->input('Recommend');
 		
 		$pros = $request->input('Pros');
-		$cons->input('Cons');
+		$cons = $request->input('Cons');
 		
 		// See if company exists
 		$company = Company::find($company_id);
-		
+				
 		if (!$company) { // If it doesn't, create it
 			$company = new Company();
 			$company->name = $request->input('Company');
 			$company->save();
 		}
+
 		
-		// See if location exists
-		$location = Location::where('city', '=', $city)->where('state', '=', $state);
+		// See if city exists
+		$city = City::where('name', '=', $city_name)->first();
 		
-		if (!$location) {
-			$location = new Location();
-			$location->city = $city;
-			$location->state = $state;
-			$location->country = "United States";
-			$location->save();
+		if (!$city) {
+			$city = new City();
+			$city->name = $city_name;
+			$city->save();
 		}
-		dd($location);
+		Company::find($company->id)->cities()->sync([$city->id], false);
 		
-		// Add location to company_location table
-		$company_location = new Company_Location();
-		$company_location->company_id = $company->id;
-		$company_location->location_id = $location->id;
-		$company_location->save();
 		
+		// See if state exists
+		$state = State::where('name', '=', $state_name)->first();
+		
+		if (!$state) {
+			$state = new State();
+			$state->name = $state_name;
+		}
+		Company::find($company->id)->states()->sync([$state->id], false);
+		
+		
+		// See if position exists
 		$position = Position::find($position_id);
+		
+		if (!$position) {
+			$position = new Position();
+			$position->name = $request->input('Position');
+			$position->save();
+		}
+		Company::find($company->id)->positions()->sync([$position->id], false);
+		
+		
+		// Make review
+		$review = new Review();
+		$review->user_id = Auth::id();
+		$review->company_id = $company->id;
+		$review->city_id = $city->id;
+		$review->state_id = $state->id;
+		$review->position_id = $position->id;
+		$review->intern_start = date($start_year . '-'. $start_month . '-01');
+		$review->intern_end = date($end_year . '-'. $end_month . '-01');
+		$review->compensation = $pay;
+		$review->fair_hours = $hours;
+		$review->future_work = $future;
+		$review->recommend = $recommend;
+		$review->pros = $pros;
+		$review->cons = $cons;
+		$review->save();
+		dd($review);
 		
 	}
 	

@@ -16,8 +16,10 @@
             @endforeach
             <p>Company:
                 <span class="lead search-text">
-                    <input type="hidden" name="company-id" id="company-id">
-                    <input type="text" autocomplete="off" size="30" name="Company" id="company-input" list="company" style="color:black" placeholder="Find your company" onselect="getCompanyValue()">
+                    <input type="hidden" name="company-id" id="company-id" {{ Request::old('company-id') }}>
+                    <input type="text" autocomplete="off" size="30" name="Company" id="company-input"
+                        list="company" style="color:black" placeholder="Find your company"
+                        onselect="getCompanyValue()" value="{{ Request::old('Company') }}">
                         <datalist id="company">
                         @foreach ($companies as $company)
                             <option id="{{ $company->id }}" value="{{ $company->name }}">
@@ -31,8 +33,8 @@
                     <input type="hidden" name="city-id" id="city-id">
                     <input type="text" autocomplete="off" size="30" name="City" id="city-input" list="city" style="color:black" placeholder="City of internship">
                         <datalist id="city">
-                        @foreach ($locations as $location)
-                            <option value="{{ $location->city }}">
+                        @foreach ($cities as $city)
+                            <option value="{{ $city->city }}">
                         @endforeach
                         </datalist>
                 </span>
@@ -43,8 +45,8 @@
                     <input type="hidden" name="state-id" id="state-id">
                     <input type="text" autocomplete="off" size="30" name="State" id="state-input" list="state" style="color:black" placeholder="State of internship">
                         <datalist id="state">
-                        @foreach ($locations as $location)
-                            <option value="{{ $location->state }}">
+                        @foreach ($states as $state)
+                            <option value="{{ $state->name }}">
                         @endforeach
                         </datalist>
                 </span>
@@ -53,56 +55,58 @@
             <p>Position:
                 <span class="lead search-text">
                     <input type="hidden" name="position-id" id="position-id">
-                    <input type="text" autocomplete="off" size="30" name="Position" id="position-input" list="position" style="color:black" placeholder="Position you held" onselect="getPositionValue()">
+                    <input type="text" autocomplete="off" size="30" name="Position" id="position-input"
+                        list="position" style="color:black" placeholder="Position you held"
+                        onselect="getPositionValue()">
                         <datalist id="position">
                         @foreach ($positions as $position)
-                            <option value="{{ $position->name }}">
+                            <option id="{{ $position->id }}" value="{{ $position->name }}">
                         @endforeach
                         </datalist>
                 </span>
             </p>
                 
             <p>Start Month:
-                <select name="month" id="start-month" name="Start Month" size="1">
+                <select id="start-month" name="Start_Month" size="1">
                     @include('date.months')
                 &nbsp;&nbsp;&nbsp; 
                Start Year:
-                <select id="start-year" name="Start Year">
+                <select id="start-year" name="Start_Year">
                     @include('date.years')
             </p>
             
             
             <p>End Month:
-                <select name="month" id="end-month" name="End Month" size="1">
+                <select id="end-month" name="End_Month" size="1">
                     @include('date.months') 
                 &nbsp;&nbsp;&nbsp; 
                End Year:
-                <select id="end-year" name="End Year">
+                <select id="end-year" name="End_Year">
                     @include('date.years')
             </p>
             
             <hr/>
             
             <p>Pros:</p>
-            <textarea name="Pros" rows="4" cols="60"></textarea>
+            <textarea name="Pros" rows="4" cols="60">{{ Request::old('Pros') }}</textarea>
                 
             <p>Cons:</p>
-            <textarea name="Cons" rows="4" cols="60"></textarea>
+            <textarea name="Cons" rows="4" cols="60">{{ Request::old('Cons') }}</textarea>
                 
             <hr/>
             <p>Was the pay good?
-                <input type="radio" name="Good Pay" value="1"> Yes 
-                <input type="radio" name="Good Pay" value="0"> No
+                <input type="radio" name="Good_Pay" value="1"> Yes 
+                <input type="radio" name="Good_Pay" value="0"> No
             </p>
                 
             <p>Were the hours fair?
-                <input type="radio" name="Fair Hours" value="1"> Yes 
-                <input type="radio" name="Fair Hours" value="0"> No
+                <input type="radio" name="Fair_Hours" value="1"> Yes 
+                <input type="radio" name="Fair_Hours" value="0"> No
             </p>
                 
             <p>Is this company offering you future employment?
-                <input type="radio" name="Future Work" value="1"> Yes 
-                <input type="radio" name="Future Work" value="0"> No
+                <input type="radio" name="Future_Work" value="1"> Yes 
+                <input type="radio" name="Future_Work" value="0"> No
             </p>
                 
                 

@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	$('#company-input').val("");
+	//$('#company-input').val("");
     $('#position-input').val("");
     $('#city-input').val("");
     $('#state-input').val("");

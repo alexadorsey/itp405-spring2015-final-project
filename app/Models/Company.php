@@ -10,6 +10,14 @@ class Company extends Model {
 	public static $future_work_rating;
     public static $num_reviews;
     
+    public function cities() {
+        return $this->belongsToMany('App\Models\City');
+    }
+    
+    public function states() {
+        return $this->belongsToMany('App\Models\State');
+    }
+    
     public function positions() {
         return $this->belongsToMany('App\Models\Position');
     }
@@ -20,6 +28,18 @@ class Company extends Model {
     
     public function images() {
         return $this->hasMany('App\Models\Image');
+    }
+    
+    public function recommend_percent() {
+        $reviews = $this->reviews();
+        $num_recommend = count($reviews->where('recommend', '=', '1')->get());
+        $num_reviews = count($reviews->get());
+        
+        if ($num_reviews > 0) {
+            return round($num_recommend/$num_reviews * 100);  
+        }
+        return 0;
+        
     }
     
     

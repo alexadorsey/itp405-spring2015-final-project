@@ -36,11 +36,14 @@
 			
 			<span class="lead search-text">
 				<input type="hidden" name="location-id" id="location-id">
-				<input type="text" autocomplete="off" size="30" id="location-input" list="location" style="color:black" placeholder="Search by location" onselect="getLocationValue()">
+				<input type="text" autocomplete="off" size="30" id="location-input" list="location" style="color:black" placeholder="Search by location">
 					<datalist id="location">
-						@foreach ($locations as $location)
-							<option id="{{ $location->id }}" value="{{ $location->city }}">
-						@endforeach
+						@foreach ($cities as $city)
+                            <option value="{{ $city->name }}">
+                        @endforeach
+						@foreach ($states as $state)
+                            <option value="{{ $state->name }}">
+                        @endforeach
 					</datalist>
 			</span>
 			<p class="lead search-btn">
