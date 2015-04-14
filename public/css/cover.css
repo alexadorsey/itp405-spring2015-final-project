@@ -3,7 +3,7 @@
  */
 
 /* Links */
-a,
+.cover-container a,
 a:focus,
 a:hover {
   color: #fff;
@@ -193,6 +193,6 @@ button {
   left: 160px;
 }
 
-a, a:active, a:focus {
+.cover-container a, a:active, a:focus {
   outline: none;
 }

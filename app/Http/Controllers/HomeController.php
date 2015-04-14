@@ -10,6 +10,8 @@ use App\Models\Review;
 use App\Models\City;
 use App\Models\State;
 use Auth;
+use Response;
+use Input;
 
 
 class HomeController extends Controller {
@@ -66,6 +68,47 @@ class HomeController extends Controller {
 	
     /**************************************/
 	/* Search Results */
+	public function searchSortBy(Request $request) {
+		$order = Input::get('order');
+		$position_id = Input::get('position_id');
+		$position = Position::find($position_id);
+		$reviews = $position->reviews()->get();
+		$reviews->load('company', 'position', 'city', 'state');
+		$val = 0;
+		if ($order == 'company_rating_high') {
+			$val = 1;
+			$reviews->sortByDesc(function($company) {
+				return Company::find($company->id)->recommend_percent();
+			});
+		}
+		
+		elseif ($order == 'company_rating_low') {
+			$val = 2;
+			$reviews->sortBy(function($company) {
+				return Company::find($company->id)->recommend_percent();
+			});
+		}
+		
+		elseif ($order == 'date_posted_newest') {
+			$val = 3;
+			$reviews->sortByDesc('created_at');
+		}
+		
+		elseif ($order == 'date_posted_oldest') {
+			$val = 4;
+			$reviews->sortBy('created_at');
+		}
+
+		$data = ['reviews'=>$reviews->reverse()->reverse(), 'val'=>$val];
+		
+		if ($request->ajax()){
+			return Response::json(['success'=>true,'data'=>$data]);
+		} else {
+			return Response::json(['success'=>false,'data'=>$data]);
+		}
+	}
+	
+	
 	
 	public function search(Request $request) {
 		
@@ -73,20 +116,16 @@ class HomeController extends Controller {
 		$location_val = $request->input('location-input');
 		
 		$position = Position::find($position_id);
-		$companies = Position::find($position_id)->companies()->get();
-		
-		
+		$reviews = $position->reviews()->orderBy('created_at', 'DESC')->get();
+		$reviews->load('company', 'position', 'city', 'state');
+		//$reviews->sortByDesc('created_at');
+				
 		return view('search-position', [
 			'title' => 'Search Position',
 			'position' => $position,
-			'companies' => $companies
+			'reviews' => $reviews
         ]);
-        
-		/*
-		return view('search-position', [
-			'title' => 'Search Position'
-		]);
-		*/
+
 	}
 	
 	
@@ -254,8 +293,8 @@ class HomeController extends Controller {
 		$review->city_id = $city->id;
 		$review->state_id = $state->id;
 		$review->position_id = $position->id;
-		$review->intern_start = date($start_year . '-'. $start_month . '-01');
-		$review->intern_end = date($end_year . '-'. $end_month . '-01');
+		$review->intern_start = date($start_year . '-'. $start_month . '-02');
+		$review->intern_end = date($end_year . '-'. $end_month . '-02');
 		$review->compensation = $pay;
 		$review->fair_hours = $hours;
 		$review->future_work = $future;
@@ -280,5 +319,36 @@ class HomeController extends Controller {
 			'title' => 'Dashboard'
 		]);
 	}
+	
+	
+	
+	/**************************************/
+	/* Company Info */
+	public function companyInfo($company_name) {
+		$company = Company::where('name', '=', $company_name)->first();
+		$company->load('cities', 'states');
+		$cities = $company->cities()->get();
+		$states = $company->states()->get();
+		$images = $company->images()->get();
+		$reviews = $company->reviews()->get();
+		$reviews->load('position', 'city', 'state');
+		
+		/* Company Statistics */
+		Company::setStats($reviews);
+		
+		return view('company', [
+			'title' => $company->company_name . 'Profile',
+			'company' => $company,
+			'reviews' => $reviews,
+			'cities' => $cities,
+			'states' => $states,
+			'images' => $images,
+			'recommend_rating' => Company::$recommend_rating,
+			'compensation_rating' => Company::$compensation_rating,
+			'fair_hours_rating' => Company::$fair_hours_rating,
+			'future_work_rating' => Company::$future_work_rating
+		]);
+	}
+	
 
 }

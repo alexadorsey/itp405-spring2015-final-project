@@ -5,12 +5,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Review extends Model {
     
+    public function company() {
+        return $this->belongsTo('App\Models\Company');
+    }
+    
     public function position() {
         return $this->belongsTo('App\Models\Position');
     }
     
-    public function location() {
-        return $this->belongsTo('App\Models\Location');
+    public function city() {
+        return $this->belongsTo('App\Models\City');
+    }
+    
+    public function state() {
+        return $this->belongsTo('App\Models\State');
     }
     
     public static function validate($input) {

@@ -13,7 +13,9 @@
 
 Route::get('home', 'HomeController@home');
 Route::get('search', 'HomeController@search');
+Route::post('search/sort', 'HomeController@searchSortBy');
 Route::get('dashboard', 'HomeController@dashboard');
+Route::get('/company/{company_name}', 'HomeController@companyInfo');
 
 Route::post('review', 'HomeController@postReview');
 Route::get('review', 'HomeController@review');
