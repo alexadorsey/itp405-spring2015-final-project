@@ -6,25 +6,42 @@
 
 
 @section('content')
-    <h1>{{ count($reviews) }} results for 'Software Engineer'</h1>
+    <h1>{{ count($reviews) }}
+    @if ( count($reviews) == 1)
+        review
+    @else
+        reviews
+    @endif
+    @if ($position)
+        for {{ $position->name }}
+    @endif
+    @if ($location)
+        in {{ $location->name }}
+    @endif
+    @if (!$position && !$location)
+        all internships
+    @endif
+    </h1>
+    @if ($position)    
     <div id="review-sort">
+        <input type="hidden">
         <h4>Sort by:</h4>
-
         <h6>Date Posted:</h6>
-        <input type="radio" class="sort-by" name="sort_by" value="date_posted_newest" checked onclick="sortReviews({{ $position->id }}, 'date_posted_newest')">
+        <input type="radio" class="sort-by" name="sort_by" value="date_posted_newest" checked onclick="sortReviews({{ $reviews }}, 'date_posted_newest')">
             <span class="sort-by-type">Newest to Oldest</span>
         <br/>
-        <input type="radio" class="sort-by" name="sort_by" value="date_posted_oldest" onclick="sortReviews({{ $position->id }}, 'date_posted_oldest')">
+        <input type="radio" class="sort-by" name="sort_by" value="date_posted_oldest" onclick="sortReviews({{ $reviews }}, 'date_posted_oldest')">
             <span class="sort-by-type">Oldest to Newest</span>
         <br/><br/>
          <h6>Company Rating:</h6>
-        <input type="radio" class="sort-by" name="sort_by" value="company_rating_high" onclick="sortReviews({{ $position->id }}, 'company_rating_high')">
+        <input type="radio" class="sort-by" name="sort_by" value="company_rating_high" onclick="sortReviews({{ $reviews }}, 'company_rating_high')">
             <span class="sort-by-type">High to Low</span>
         <br/>
-        <input type="radio" class="sort-by" name="sort_by" value="company_rating_low" onclick="sortReviews({{ $position->id }}, 'company_rating_low')">
+        <input type="radio" class="sort-by" name="sort_by" value="company_rating_low" onclick="sortReviews({{ $reviews }}, 'company_rating_low')">
             <span class="sort-by-type">Low to High</span>
         <br/>
     </div>
+    @endif
     <div id="reviews">
         @foreach ($reviews as $review)
 				
@@ -62,7 +79,7 @@
 				</span>
 				<div style="clear:both"></div>
 				<span class="intern-date">{{ DATE_FORMAT(new DateTime($review->intern_start), 'F Y') }} - {{ DATE_FORMAT(new DateTime($review->intern_end), 'F Y') }}</span>
-				<span class="post-date">Posted {{ DATE_FORMAT(new DateTime($review->date_posted), 'n/j/y') }}</span>
+				<span class="post-date">Posted {{ DATE_FORMAT(new DateTime($review->created_at), 'n/j/y') }}</span>
 				<div class="clear"></div>
 				<table>
                     <col width="10%">

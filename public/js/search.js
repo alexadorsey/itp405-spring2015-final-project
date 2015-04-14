@@ -1,12 +1,11 @@
-function sortReviews(position_id, order) {
+function sortReviews(reviews, order) {
     return $.ajax({
         type: "POST",
         dataType: "json",
         url: 'search/sort',
-        data: { order: order, position_id: position_id },
+        data: { reviews: reviews, order: order },
         success: function(data) {
             console.log(data.data.reviews);
-            console.log(data.data.val);
             console.log("Success!");
             
             // Remove html from review div
@@ -19,7 +18,8 @@ function sortReviews(position_id, order) {
             console.log("There was an error");
         }
     });
-};
+}
+
 
 function reorderReviews(reviews) {
     var newRevs = "";
@@ -33,12 +33,12 @@ function reorderReviews(reviews) {
     for (var key in reviews) {
         if (reviews.hasOwnProperty(key)) {
             var review = reviews[key];
-       
+            console.log(review);
             newRevs += '<div class="review">';
             if (review.company.icon) {
                 newRevs += '<img class="company-logo" src="' + review.company.icon + '"/>';
             }
-            newRevs += ' <span class="company-name">' + review.company.name + '</span><br/>';
+            newRevs += ' <a href="company/' + review.company.name + '"><span class="company-name">' + review.company.name + '</span></a><br/>';
             newRevs += '<span class="review-title" style="float:left;">' + review.position.name + ' at ' + review.city.name + ', ' + review.state.abbreviation + '</span>';
             newRevs += '<span style="float:right">';
             
@@ -70,7 +70,7 @@ function reorderReviews(reviews) {
             newRevs += '<div style="clear:both"></div>';
             var start_date = new Date(review.intern_start);
             var end_date = new Date(review.intern_end);
-            var post_date = review.date_posted;
+            var post_date = review.created_at;
             var month = dateFormat(post_date.substring(5,7));
             var day = dateFormat(post_date.substring(8,10));
             var year = post_date.substring(2,4)

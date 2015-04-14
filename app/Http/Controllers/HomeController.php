@@ -12,6 +12,7 @@ use App\Models\State;
 use Auth;
 use Response;
 use Input;
+use Illuminate\Database\Eloquent\Collection;
 
 
 class HomeController extends Controller {
@@ -67,39 +68,39 @@ class HomeController extends Controller {
 	
 	
     /**************************************/
-	/* Search Results */
+	/* Sort Results */
 	public function searchSortBy(Request $request) {
 		$order = Input::get('order');
-		$position_id = Input::get('position_id');
-		$position = Position::find($position_id);
-		$reviews = $position->reviews()->get();
-		$reviews->load('company', 'position', 'city', 'state');
-		$val = 0;
+		$revs = Input::get('reviews');
+		$reviews = new Collection;
+		
+		foreach ($revs as $review) {
+			$reviews->add(new Collection($review));
+		}
+		
+		
 		if ($order == 'company_rating_high') {
-			$val = 1;
 			$reviews->sortByDesc(function($company) {
-				return Company::find($company->id)->recommend_percent();
+				return Company::find($company['company_id'])->recommend_percent();
 			});
 		}
 		
 		elseif ($order == 'company_rating_low') {
-			$val = 2;
 			$reviews->sortBy(function($company) {
-				return Company::find($company->id)->recommend_percent();
+				return Company::find($company['company_id'])->recommend_percent();
 			});
 		}
 		
 		elseif ($order == 'date_posted_newest') {
-			$val = 3;
 			$reviews->sortByDesc('created_at');
 		}
 		
 		elseif ($order == 'date_posted_oldest') {
-			$val = 4;
 			$reviews->sortBy('created_at');
 		}
-
-		$data = ['reviews'=>$reviews->reverse()->reverse(), 'val'=>$val];
+		
+		
+		$data = ['reviews'=>$reviews->reverse()->reverse()];
 		
 		if ($request->ajax()){
 			return Response::json(['success'=>true,'data'=>$data]);
@@ -115,14 +116,45 @@ class HomeController extends Controller {
 		$position_id = $request->input('position-id');
 		$location_val = $request->input('location-input');
 		
-		$position = Position::find($position_id);
-		$reviews = $position->reviews()->orderBy('created_at', 'DESC')->get();
+		$position = null;
+		$location = null;
+		$reviews = null;
+		
+		if ($position_id) {
+			$position = Position::find($position_id);
+			$reviews_position = $position->reviews()->orderBy('created_at', 'DESC')->get();
+			//$reviews_position->load('company', 'position', 'city', 'state');
+		}
+		
+		if ($location_val) {
+			$location = City::where('name', '=', $location_val)->first();
+			if ($location) {
+				$reviews_location = City::find($location->id)->reviews()->orderBy('created_at', 'DESC')->get();
+			} else {
+				$location = State::where('name', '=', $location_val)->first();
+				if ($location) {
+					$reviews_location = State::find($location->id)->reviews()->orderBy('created_at', 'DESC')->get();
+				}
+			}
+		}
+		
+		if ($position_id && $location_val) {
+			// intersect
+			$reviews = $reviews_position->intersect($reviews_location);
+		} elseif ($position_id) {
+			$reviews = $reviews_position;
+		} elseif ($location_val) {
+			$reviews = $reviews_location;
+		} else {
+			$reviews = Review::all();
+		}
+		
 		$reviews->load('company', 'position', 'city', 'state');
-		//$reviews->sortByDesc('created_at');
-				
+
 		return view('search-position', [
-			'title' => 'Search Position',
+			'title' => 'Search Results',
 			'position' => $position,
+			'location' => $location,
 			'reviews' => $reviews
         ]);
 

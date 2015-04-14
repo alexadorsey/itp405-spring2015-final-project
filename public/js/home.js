@@ -2,6 +2,7 @@ $(document).ready(function() {
 	$('#company-input').val("");
 	$('#position-input').val("");
 	$('#location-input').val("");
+	$('#position-id').val("");
 });
 
 function getCompanyValue() {

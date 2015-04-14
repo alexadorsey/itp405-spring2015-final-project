@@ -35,8 +35,7 @@
 			</span>
 			
 			<span class="lead search-text">
-				<input type="hidden" name="location-id" id="location-id">
-				<input type="text" autocomplete="off" size="30" id="location-input" list="location" style="color:black" placeholder="Search by location">
+				<input type="text" autocomplete="off" size="30" name="location-input" id="location-input" list="location" style="color:black" placeholder="Search by location">
 					<datalist id="location">
 						@foreach ($cities as $city)
                             <option value="{{ $city->name }}">

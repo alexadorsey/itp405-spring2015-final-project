@@ -32,8 +32,8 @@ class Company extends Model {
     
     public function recommend_percent() {
         $reviews = $this->reviews();
-        $num_recommend = count($reviews->where('recommend', '=', '1')->get());
         $num_reviews = count($reviews->get());
+        $num_recommend = count($reviews->where('recommend', '=', '1')->get());
         
         if ($num_reviews > 0) {
             return round($num_recommend/$num_reviews * 100);  
