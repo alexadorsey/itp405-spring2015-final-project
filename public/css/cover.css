@@ -196,3 +196,12 @@ button {
 .cover-container a, a:active, a:focus {
   outline: none;
 }
+
+.inner-body {
+  padding: 0 10%;
+}
+
+body {
+/*  font-family: 'Noto Sans', sans-serif; */
+  font-family: 'Muli', sans-serif;
+}

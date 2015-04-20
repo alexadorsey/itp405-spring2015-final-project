@@ -58,7 +58,7 @@
 			@foreach ($reviews as $review)
 				
 				<div class="review">
-				<span class="review-title" style="float:left;">{{ $review->position->name }} at {{ $review->location->city }}, {{ $review->location->state }}</span>
+				<span class="review-title" style="float:left;">{{ $review->position->name }} at {{ $review->city->name }}, {{ $review->state->name }}</span>
 				<span style="float:right">
 					@if ($review->recommend == 0)
 						<span class="glyphicon glyphicon-thumbs-up review-icon neg-review-rating"></span>

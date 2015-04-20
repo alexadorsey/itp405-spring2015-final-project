@@ -1,0 +1,9 @@
+#num-reviews {
+    margin-left:10px;
+    font-size: 15pt;
+}
+
+.delete {
+    float: right;
+    margin-right: 15px;
+}

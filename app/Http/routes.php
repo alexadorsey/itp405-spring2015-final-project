@@ -15,7 +15,20 @@ Route::get('home', 'HomeController@home');
 Route::get('search', 'HomeController@search');
 Route::post('search/sort', 'HomeController@searchSortBy');
 Route::get('dashboard', 'HomeController@dashboard');
+Route::get('/dashboard/deleteReview/{review_id}', 'HomeController@deleteReview');
+
+Route::get('/dashboard/create-company', 'HomeController@createCompany');
+Route::post('/dashboard/create-company', 'HomeController@postCreateCompany');
+Route::get('/dashboard/edit-company/{company_id}', 'HomeController@editCompany');
+Route::post('/dashboard/edit-company/{company_id}', 'HomeController@postEditCompany');
+Route::get('/dashboard/delete-company/{company_id}', 'HomeController@deleteCompany');
+
+Route::post('/dashboard/approve-review/{review_id}', 'HomeController@approveReview');
+Route::post('/dashboard/disapprove-review/{review_id}', 'HomeController@disapproveReview');
+
+
 Route::get('/company/{company_name}', 'HomeController@companyInfo');
+Route::get('/companies', 'HomeController@companies');
 
 Route::post('review', 'HomeController@postReview');
 Route::get('review', 'HomeController@review');

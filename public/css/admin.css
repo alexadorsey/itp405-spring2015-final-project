@@ -1,0 +1,37 @@
+.create-div {
+    margin: auto;
+    display: inline-block;
+    width: 180px;
+}
+
+.create-div a, .create-div a:hover, .create-div a:focus {
+    width: 130px;
+    margin: 5px 0;
+    text-decoration:none;
+    outline: none;
+    border: 0;
+}
+
+.success-message {
+    color: green;
+}
+
+
+#create-edit-box {
+  float:left;
+  width: 15%;
+  margin-left: 10%;
+}
+
+
+#reviews h3 {
+    margin-top: -20px;
+    margin-bottom: 20px;
+}
+
+.review table {
+  width: 97%;
+  margin-left: 3%;
+  border-left: 1px solid white;
+  margin-top: 10px;
+}

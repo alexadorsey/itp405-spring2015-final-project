@@ -2,11 +2,6 @@
     padding-top: 70px;
 }
 
-.inner-body {
-  padding: 0 10%;
-}
-
-
 #company-results {
     width: 700px;
     margin: auto;
@@ -29,78 +24,71 @@
     margin-left: 7px;
 }
 
-#job-listings {
-    float:left;
-    width:15%;
-    text-align: left;
-    margin-left: 15%;
-}
-
-#job-listings {
-    font-size: 9pt;
-}
-
-#review-sort {
+#company-sort {
+  float:left;
+  width: 15%;
   text-align: left;
-  /*margin-top: 30px;*/
-  float:right;
-  width:66%;
-  margin-top: 10px;
-  margin-right: 30px;
-}
-
-#review-sort input {
-    font-size: 10pt;
+  margin-left: 15%;
 }
 
 
-#review-sort a, a:active, a:focus {
+#company-sort a, a:active, a:focus {
     outline: medium none;
 }
-#review-sort a, a:focus, a:hover {
+#company-sort a, a:focus, a:hover {
     color: #000;
 }
-#review-sort a {
+#company-sort a {
     color: #000;
     text-decoration: underline;
 }
-#review-sort a {
+#company-sort a {
     background-color: transparent;
 }
 
 .sort-by {
+    margin-left:10px
 }
 
 .sort-by-type {
     margin-left: 10px;
 }
 
-#reviews {
+
+#companies {
   text-align: left;
   /*margin-top: 30px;*/
   float:right;
   width:66%;
-  border-left: 1px solid #e3e3e3;
-  padding: 0 20px;
+  /*border-left: 1px solid #e3e3e3;*/
+  padding-right: 20px;
   margin-top: 30px;
   margin-right: 30px;
 }
 
-.review-title {
-  font-size: 15pt;
-  float: left;
+.rating-icon {
+    font-size: 12pt;
 }
 
-.review {
+.rating {
+  font-size: 12pt;
+  margin-left: 10px;
+}
+
+.company-box {
   margin-bottom: 30px;
+  width: 260px;
+  float: left;
+  border-left: 1px solid #e3e3e3;
+  padding-left: 30px;
 }
 
-.review-icon {
+.company-icon {
   font-size: 13pt;
   padding-right: 15pt;
 }
 
-.review table {
+.company table {
   width: 97%;
   margin-left: 3%;
   border-left: 1px solid white;
@@ -115,34 +103,17 @@ th,td {
   font-size: 13pt;
 }
 
-.intern-date {
-  float:left;
-}
-
-.post-date {
-  float:right;
-  font-size: 10pt;
-  color: #b8b8b8;
-  text-shadow:none;
-}
-
-
-.pos-review-rating {
-  color: green
-}
-
-.neg-review-rating {
-  opacity: 0.3
-}
 
 .clear {
   clear:both
 }
 
-#reviews a, a:hover, a:focus{
-    text-decoration:none;
-    outline: none;
+#companies a, a:hover, a:focus{
+    text-decoration:none;  
 }
 
+.inner-body {
+    padding: 0 2%;
+}
 
 

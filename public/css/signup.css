@@ -10,3 +10,7 @@ form {
 .error-message {
     color: red;
 }
+
+.edit-button {
+    width: 70px;
+}

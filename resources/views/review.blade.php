@@ -34,7 +34,7 @@
                     <input type="text" autocomplete="off" size="30" name="City" id="city-input" list="city" style="color:black" placeholder="City of internship">
                         <datalist id="city">
                         @foreach ($cities as $city)
-                            <option value="{{ $city->city }}">
+                            <option value="{{ $city->name }}">
                         @endforeach
                         </datalist>
                 </span>

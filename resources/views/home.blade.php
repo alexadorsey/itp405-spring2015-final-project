@@ -8,7 +8,8 @@
 @section('content')
 	<div class="inner cover">
 		<h1 class="cover-heading">How was that internship?</h1>
-		<p class="lead">Search any company below to read reviews on their internships. Fair pair? Good hours? Worth it? Find out!</p>
+		<p class="lead">Search any company below to read reviews on their internships.<br/>
+		Fair pair? Good hours? Worth it? Find out!</p>
 	</div>
 		
 		

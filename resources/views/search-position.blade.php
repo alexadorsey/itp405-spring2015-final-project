@@ -6,6 +6,7 @@
 
 
 @section('content')
+	<div class="inner-body">
     <h1>{{ count($reviews) }}
     @if ( count($reviews) == 1)
         review
@@ -22,26 +23,41 @@
         all internships
     @endif
     </h1>
-    @if ($position)    
     <div id="review-sort">
-        <input type="hidden">
-        <h4>Sort by:</h4>
-        <h6>Date Posted:</h6>
+        <span>Sort by:</span>
+        <!--<span>Date Posted:</span>-->
+		<select>
+			<option class="sort-by" name="sort_by" value="date_posted_newest" checked onclick="sortReviews({{ $reviews }}, 'date_posted_newest')">Date Posted: Newest to Oldest</option>
+			<option class="sort-by" name="sort_by" value="date_posted_newest" onclick="sortReviews({{ $reviews }}, 'date_posted_oldest')">Date Posted: Oldest to Newest</option>
+			<option class="sort-by" name="sort_by" value="company_rating_high" onclick="sortReviews({{ $reviews }}, 'company_rating_high')">Company Rating: High to Low</option>
+			<option class="sort-by" name="sort_by" value="company_rating_low" onclick="sortReviews({{ $reviews }}, 'company_rating_low')">Company Rating: Low to High</option>
+		</select>
+		<!--
+		<span>Company Rating:</span>
+		<select>
+			
+		</select>
+		
         <input type="radio" class="sort-by" name="sort_by" value="date_posted_newest" checked onclick="sortReviews({{ $reviews }}, 'date_posted_newest')">
             <span class="sort-by-type">Newest to Oldest</span>
-        <br/>
         <input type="radio" class="sort-by" name="sort_by" value="date_posted_oldest" onclick="sortReviews({{ $reviews }}, 'date_posted_oldest')">
             <span class="sort-by-type">Oldest to Newest</span>
-        <br/><br/>
-         <h6>Company Rating:</h6>
+         <span>Company Rating:</span>
         <input type="radio" class="sort-by" name="sort_by" value="company_rating_high" onclick="sortReviews({{ $reviews }}, 'company_rating_high')">
             <span class="sort-by-type">High to Low</span>
-        <br/>
         <input type="radio" class="sort-by" name="sort_by" value="company_rating_low" onclick="sortReviews({{ $reviews }}, 'company_rating_low')">
             <span class="sort-by-type">Low to High</span>
-        <br/>
+			-->
     </div>
-    @endif
+	
+	<div id="job-listings">
+		<h4>Job Postings:</h4>
+		@for ($i = 0; $i<5; $i++)
+			<?php $job = $jobs[$i] ?>
+			<p><a target="_blank" href="{{ $job->url }}" >{{ $job->title }}</a></p>
+		@endfor
+	</div>	
+	
     <div id="reviews">
         @foreach ($reviews as $review)
 				
@@ -98,7 +114,9 @@
 				
 			@endforeach
     </div>
-<div class="clear"></div>
+		
+	<div class="clear"></div>
+	</div>
 @stop
 
 
