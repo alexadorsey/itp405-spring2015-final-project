@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('assets')
-    <link rel="stylesheet" href="{{ asset('css/company-page.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('css/search-position.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('fancyBox/source/jquery.fancybox.css') }}" type="text/css" media="screen" />
 @stop
 

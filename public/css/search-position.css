@@ -1,11 +1,22 @@
 .site-wrapper-inner {
-    padding-top: 70px;
+    padding-top: 50px;
 }
 
 .inner-body {
-  padding: 0 10%;
+  padding-right: 5%;
+  padding-left: 0%;
 }
 
+#right-col {
+    text-align: left;
+    float:right;
+    width: 75%;
+    margin-right: 0px;
+    border-left: 1px solid #e3e3e3;
+    padding-left: 20px;
+    margin-top: -20px;
+    padding-top: 20px;
+}
 
 #company-results {
     width: 700px;
@@ -14,39 +25,57 @@
     margin-top: 50px;
 }
 
-.company-logo {
-  width: 35px;
-  height: 35px;
-  margin-top: -20px;
-  margin-right: 10px;
-}
-
-.company-name {
-    font-size: 22pt;
-}
-
-.title-recommend {
-    margin-left: 7px;
-}
-
 #job-listings {
     float:left;
-    width:15%;
+    width:24%;
     text-align: left;
-    margin-left: 15%;
+    font-size: 9pt;
+    padding-top: 15px;
+    background-color: #f8f2f8;
+    padding-left: 5%;
+    position: fixed;
+    height: 100%;
+    text-shadow: none;
 }
 
-#job-listings {
-    font-size: 9pt;
+
+.job-listings-company {
+    font-size: 11pt;
+    font-weight: bold;
+}
+
+.job-listings-location {
+    color: #999;
+}
+
+.job-listings-job {
+    
+}
+
+#top-header {
+    position: fixed;
+    background-color: #fff;
+    width: 70%;
+    z-index: 2;
+    height: 70px;
+    border-bottom: 1px solid #e3e3e3;
+
+}
+
+#page-header {
+    padding: 0 20px;
+    margin-top: 25px;
+    float:left;
+    font-size: 13pt;
+    font-weight: bold;
 }
 
 #review-sort {
-  text-align: left;
-  /*margin-top: 30px;*/
   float:right;
-  width:66%;
-  margin-top: 10px;
-  margin-right: 30px;
+  text-align: left;
+  margin-top: 30px;
+  padding: 0 20px;
+  font-size: 9pt;
 }
 
 #review-sort input {
@@ -75,44 +104,107 @@
     margin-left: 10px;
 }
 
+
 #reviews {
   text-align: left;
   /*margin-top: 30px;*/
-  float:right;
-  width:66%;
-  border-left: 1px solid #e3e3e3;
+  float:left;
   padding: 0 20px;
-  margin-top: 30px;
-  margin-right: 30px;
+  padding-top: 80px;
+  position:relative;
+  overflow-y: scroll;
+  height: 100%;
+  z-index: 1;
+  text-shadow: none;
 }
 
+.top-review-row {
+    background-color: #f8f2f8;
+}
+
+.company-logo {
+  width: 35px;
+  height: 35px;
+  margin: -15px 10px 0 10px;
+}
+
+.company-name {
+    font-size: 26pt;
+}
+
+.title-recommend {
+    margin-left: 7px;
+}
+
+
 .review-title {
-  font-size: 15pt;
+  font-size: 11pt;
   float: left;
+  color: orange;
 }
 
 .review {
   margin-bottom: 30px;
+  border-top: 1px solid #e3e3e3;
 }
 
 .review-icon {
   font-size: 13pt;
-  padding-right: 15pt;
+  padding: 6pt;
+  color: white;
+  text-shadow: none;
+  margin-top: 7px;
+}
+
+.future_work_icon {
+    margin-right: 10px;
+}
+
+.pos-review-rating {
+  background-color: #8AE62E;
+}
+
+.neg-review-rating {
+  opacity: 0.3;
+  background-color: #999;
 }
 
 .review table {
   width: 97%;
-  margin-left: 3%;
+  padding: 0 3%;
   border-left: 1px solid white;
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
-th,td {
-  padding: 15px;
+
+.review th,td {
+  padding: 5px 10px;
+}
+
+.pros-table-col {
+    border-right: 1px solid #e3e3e3
+}
+
+.cons-table-col {
+    padding-left:10px;
 }
 
 .pro {
   font-size: 13pt;
+  font-weight: bold;
+  
+}
+
+.pro-text {
+    background-color: #FF5050;
+    color:white;
+    padding: 3px;
+}
+
+.con-text {
+    background-color: #3399FF;
+    color:white;
+    padding: 3px;
 }
 
 .intern-date {
@@ -124,15 +216,7 @@ th,td {
   font-size: 10pt;
   color: #b8b8b8;
   text-shadow:none;
-}
-
-
-.pos-review-rating {
-  color: green
-}
-
-.neg-review-rating {
-  opacity: 0.3
+  margin-top: -10px;
 }
 
 .clear {

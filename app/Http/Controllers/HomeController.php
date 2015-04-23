@@ -111,9 +111,9 @@ class HomeController extends Controller {
 	public function search(Request $request) {
 		
 		//$url = "https://jobs.github.com/positions.json?description=python&location=new+york";
-		
-		
-		$url = "https://jobs.github.com/positions.json?description=intern";
+		$devkey = "WDHQ43364147NGQQZP5R";
+		$url = "http://api.careerbuilder.com/v1/jobsearch?DeveloperKey=$devkey&JobTitle=intern";  //&oauthtoken=**128 character long token**";
+		//$url = "https://jobs.github.com/positions.json?description=intern";
 		$cache_string = "jobs-";
 		
 		$position_id = $request->input('position-id');
@@ -143,32 +143,64 @@ class HomeController extends Controller {
 		if ($position_id && $location_val) {
 			// intersect
 			$reviews = $reviews_position->intersect($reviews_location);
-			$url .= "+" . urlencode($position->name) . "&location=" . urlencode($location->name);
+			//$url .= "+" . urlencode($position->name) . "&location=" . urlencode($location->name);
+			$url .= "&keywords=". urlencode($position->name) . '&location=' . urlencode($location->name);
 			$cache_string .= $position_id . "+" . urlencode($location->name);
 		} elseif ($position_id) {
 			$reviews = $reviews_position;
-			$url .= "+" . urlencode($position->name);
+			//$url .= "+" . urlencode($position->name);
+			$url .= "&keywords=" . urlencode($position->name);
 			$cache_string .= $position_id;
 		} elseif ($location_val) {
 			$reviews = $reviews_location;
+			//$url .= "&location=" . urlencode($location->name);
 			$url .= "&location=" . urlencode($location->name);
 			$cache_string .= urlencode($location->name);
 		} else {
+			//$url .= "+keywords=internship";
 			$reviews = Review::where("approved", "=", 1)->get();
 		}
 		
 		$reviews->load('company', 'position', 'city', 'state');
-		echo $url;
+		//echo $url;
 		//dd($cache_string);
-		//if (Cache::has("jobs-$position_id+$location_val")) { // if in cache and hasn't expired yet
-		//	$jsonString = Cache::get("jobs-$position_id+$location_val");
-		//} else {
-			$jsonString = file_get_contents($url);
-			//Cache::put("jobs-$position_id+$location_val", $jsonString, 180) ;
-		//}
+		if (Cache::has("jobs-$position_id+$location_val")) { // if in cache and hasn't expired yet
+			$json = Cache::get($cache_string);
+		} else {
+			$xml = simplexml_load_string(file_get_contents($url));
+			$json = json_encode($xml);
+			Cache::put($cache_string, $json, 180) ;
+		}
 		
-		$jobs = json_decode($jsonString);
-		dd($jobs);
+		$jobs = json_decode($json,TRUE);
+		$jobs = $jobs["Results"]["JobSearchResult"];
+		//dd($jobs);
+		
+		/*
+		$c = 0;
+		$i = 0;
+		while ($c<5 && $i < count($jobs)) {
+		//for ($i=0; $i<count($jobs); $i++) {
+			$job = $jobs[$i];
+			echo "<p> </p>";
+			if (!is_array($job["CompanyDetailsURL"])) {
+				
+				echo $job["CompanyDetailsURL"];
+				//echo "Is array? " . is_array($job["CompanyDetailsURL"]);
+				$c++;
+			}
+			$i++;
+		}
+		echo "C is: " . $c;
+		*/
+		/*
+		for ($i=0; $i<count($jobs); $i++) {
+			$job = $jobs[$i];
+			echo $job["CompanyDetailsURL"];
+			//dd($job["CompanyDetailsURL"]);
+		}
+		*/
+		//dd($jobs[1]["Location"]);
 
 		return view('search-position', [
 			'title' => 'Search Results',

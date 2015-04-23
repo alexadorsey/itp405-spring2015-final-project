@@ -32,8 +32,10 @@ body {
   width: 100%;
   height: 100%; /* For at least Firefox */
   min-height: 100%;
+  /*
   -webkit-box-shadow: inset 0 0 100px rgba(0,0,0,.5);
           box-shadow: inset 0 0 100px rgba(0,0,0,.5);
+          */
 }
 /*
 .site-wrapper-inner {
@@ -134,10 +136,10 @@ footer {
   .masthead {
     position: fixed;
     top: 0;
-    z-index: 2;
+    z-index: 3;
     /*background-color: #333;*/
-    padding: 0 10%;
-    background-color: orange;
+    padding: 0 2%;
+    background-color: #000;
   }
   .mastfoot {
     position: fixed;
@@ -191,6 +193,11 @@ button {
   position: absolute;
   top: 100px;
   left: 160px;
+}
+
+#hello-logo {
+  width: 60px;
+  height: 46px;
 }
 
 .cover-container a, a:active, a:focus {

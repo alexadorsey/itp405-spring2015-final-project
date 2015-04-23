@@ -6,10 +6,10 @@
 	<meta name="_token" content="{{ csrf_token() }}" />
 	<title>{{ $title }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
-	<link href='http://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
-	<link href='http://fonts.googleapis.com/css?family=Hind|Muli' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+	<link href='//fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+	<link href='//fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
+	<link href='//fonts.googleapis.com/css?family=Hind|Muli' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="{{ asset('css/cover.css') }}" type="text/css">
 	@yield('assets')
 	
@@ -22,6 +22,7 @@
 
           <div class="masthead clearfix">
             <div class="inner">
+			
               <h3 class="masthead-brand">InternshipWatch.com</h3>
               <nav>
                 <ul class="nav masthead-nav">
@@ -75,8 +76,8 @@
     </div>
 
 	<!-- Scripts -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	@yield('javascript')
 </body>
 </html>
