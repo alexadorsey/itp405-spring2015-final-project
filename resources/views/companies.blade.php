@@ -1,77 +1,96 @@
 @extends('layout')
 
 @section('assets')
+	<link rel="stylesheet" href="{{ asset('css/search-position.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/companies.css') }}" type="text/css">
 @stop
 
+@include('header');
 
 @section('content')
-	<div class="inner-body">
-    <h1>{{ count($companies) }}
-    @if ( count($companies) == 1)
-        company
-    @else
-        companies
-    @endif
-    </h1>
-    <div id="company-sort">
-        <input type="hidden">
-        <h4>Sort by:</h4>
-        <h6>Number of Reviews:</h6>
-        <input type="radio" class="sort-by" name="sort_by" value="date_posted_newest" checked onclick="sortReviews({{ $companies }}, 'date_posted_newest')">
-            <span class="sort-by-type">Newest to Oldest</span>
-        <br/>
-        <input type="radio" class="sort-by" name="sort_by" value="date_posted_oldest" onclick="sortReviews({{ $companies }}, 'date_posted_oldest')">
-            <span class="sort-by-type">Oldest to Newest</span>
-        <br/><br/>
-         <h6>Company Rating:</h6>
-        <input type="radio" class="sort-by" name="sort_by" value="company_rating_high" onclick="sortReviews({{ $companies }}, 'company_rating_high')">
-            <span class="sort-by-type">High to Low</span>
-        <br/>
-        <input type="radio" class="sort-by" name="sort_by" value="company_rating_low" onclick="sortReviews({{ $companies }}, 'company_rating_low')">
-            <span class="sort-by-type">Low to High</span>
-        <br/>
-    </div>
-    <div id="companies">
-        @foreach ($companies as $company)
-			<div class="company-box">
-                @if ($company->icon)
-                   <img class="company-logo" src="{{ $company->icon }}"/>
-                @endif
-                <a href="company/{{ $company->name }}"><span class="company-name">{{ $company->name }}</span></a><br/>
-                <p>Number of reviews: {{ count($company->reviews()->where("approved", "=", 1)->get()) }}</p>
-                <p>Positions: 
-					@if (count($company->positions()->get()) == 0)
-						--
-					@else
-						@foreach($company->positions()->take(5)->get() as $position)
-							{{ $position->name }}
-						@endforeach
-					@endif
-                </p>
-                @if (count($company->reviews()->where("approved", "=", 1)->get()) == 0)
-                    <span class="glyphicon glyphicon-thumbs-up rating-icon"></span><span class="rating">No reviews yet.</span>
-                @else
-                    <span class="glyphicon glyphicon-thumbs-up rating-icon"></span><span class="rating">{{ $company->recommend_percent() }}% Recommend</span>
-                @endif
-				<table>
-                    <col width="10%">
-                    <col width="95%">
-					<tr>
-						<td class="pro">Pros:</td>
-						<td>Stuff about the company</td>
-					</tr>
-					<tr>
-						<td class="pro">Cons:</td>
-						<td>More stuff</td>
-					</tr>
-                </table>
-			</div>
-				
-			@endforeach
-    </div>
-	<div class="clear"></div>
+<div class="inner-body">
+	<div id="job-listings">
+		<h4>Internship Postings:</h4>
+		<p>Powered by CareerBuilder.com</p>
+		@if (count($jobs) == 0)
+			<span style="color: orange">No internships for this company found.</span>
+		@else
+			<?php $index=0; $count = 0 ?>
+			@while ($count<7 && $index<count($jobs))
+				<?php $job = $jobs[$index] ?>
+				@if (!is_array($job["CompanyDetailsURL"]))
+					<span class="job-listings-company">{{ $job["Company"] }}</span><br/>
+					<span class="job-listings-location">{{ $job["Location"] }}</span><br/>
+					<span class="job-listings-job"><a target="_blank" href="{{ $job["CompanyDetailsURL"] }}">{{ $job["JobTitle"] }}</a></span><br/><br/>
+					<?php $count++; ?>
+				@endif
+				<?php $index++; ?>
+			@endwhile
+		@endif
 	</div>
+    
+	<div id="right-col">
+		<div id="companies">
+			@foreach ($companies as $company)
+				<div class="company-box">
+				
+					<!-- Header -->
+					<div class="company-header">
+						@if ($company->icon)
+						   <img class="company-logo" src="{{ $company->icon }}"/>
+						@endif
+						<a href="company/{{ $company->name }}"><span class="company-name">{{ $company->name }}</span></a>
+					</div>
+						
+					<!-- Stats -->
+					<div class="recommend">
+						@if (count($company->reviews()->where("approved", "=", 1)->get()) == 0)
+							<span class="glyphicon glyphicon-thumbs-up rating-icon title-icon title-icon-none"></span><span class="rating">--% Recommend</span>
+						@else
+							<span class="glyphicon glyphicon-thumbs-up rating-icon title-icon title-icon-recommend"></span><span class="rating">{{ $company->recommend_percent() }}% Recommend</span>
+						@endif
+					</div>
+					<!-- Num Reviews -->
+					<div class="num-reviews">
+						<?php $num_reviews = count($company->reviews()->where("approved", "=", 1)->get()) ?>
+						@if ($num_reviews == 0)
+							<span class="num-review">No reviews</span>
+						@elseif ($num_reviews == 1)
+							<span class="num-review">1 review</span>
+						@else
+							<span class="num-review">{{ $num_reviews }} reviews</span>
+						@endif
+					</div>
+						
+					<!-- Positions -->
+					<div class="positions">
+					<br/>
+					@if (count($company->positions()->get()) > 0)
+						@foreach($company->positions()->take(5)->get() as $position)
+							<span class="position">{{ $position->name }}</span>
+						@endforeach
+					@else
+						<span class="position">No positions</span>
+					@endif
+					</div>
+
+					<!-- Locations -->
+					<div class="locations">
+					@if (count($company->cities()->get()) > 0)
+						@foreach($company->cities()->take(5)->get() as $location)
+							<span class="location">{{ $location->name }}</span>
+						@endforeach
+					@else
+						<span class="location">No locations</span>
+					@endif
+					</div>	
+						
+				</div>	
+			@endforeach
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>
 @stop
 
 

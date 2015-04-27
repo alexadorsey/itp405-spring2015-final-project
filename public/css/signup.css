@@ -1,16 +1,63 @@
 .site-wrapper-inner {
-    padding-top: 70px;
+    padding-top: 0px;
 }
 
 form {
-    width: 300px;
+    width: 400px;
+    text-align: center;
     margin: auto;
+    text-shadow: none;
+}
+
+.login-form {
+    width: 300px;
+}
+
+.form-group {
+}
+
+.success-message {
+    color: #8AE62E;
+    text-shadow: none;
 }
 
 .error-message {
     color: red;
+    text-shadow: none;
 }
 
 .edit-button {
     width: 70px;
+}
+
+hr {
+    width: 80%;
+}
+
+.form-control {
+    width: 200px;
+}
+
+.input-type {
+    text-align: right;
+    margin-top: 6px;
+}
+
+.input-box {
+    padding-left: 0;
+}
+
+.sign-up-header {
+    background-color: #f8f2f8;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+}
+
+.site-wrapper-inner {
+    margin-top: -20px;
+}
+
+.login-button {
+    margin-top: 20px;
 }

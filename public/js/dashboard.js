@@ -11,7 +11,18 @@ function confirmDeleteCompany(url) {
 }
 
 function editCompany(url) {
-    window.location.href = url + '/' + $('#company-id').val();
+    url += '/' + $('#company-id').val();
+    $.fancybox.open({
+        href: url,
+        type: 'iframe',
+        fitToView	: false,
+		width		: '450',
+		height		: '400',
+		autoSize	: false,
+		closeClick	: false,
+		openEffect	: 'none',
+		closeEffect	: 'none'
+    });
 }
 
 
@@ -28,11 +39,3 @@ function reviewReview(url, review_id) {
         }
     });
 }
-
-$(function() {
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-Token': $('meta[name="_token"]').attr('content')
-        }
-    });
-});

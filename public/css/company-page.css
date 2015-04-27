@@ -1,9 +1,3 @@
-.site-wrapper-inner {
-    /*vertical-align: middle;*/
-    /* padding-top: 0px */
-    padding-top: 0px;
-}
-
 #review-btn {
   width: 100px;
   position:fixed;
@@ -11,19 +5,10 @@
   left:89%;
   padding: 3px 0;
   z-index:1;
-  /*background-color:red;
-  color:white;
-  width: 100px;
-  position:fixed;
-  top:48px;
-  left:89%;
-  padding: 3px 0;
-  z-index:1;
-  border-bottom-left-radius: 1em;
-  border-bottom-right-radius: 1em;
-  -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,.3);
-          box-shadow: inset 0 0 5px rgba(0,0,0,.3);
-          */
+}
+
+#top-header {
+  height: 120px;
 }
 
 #title-recommend {
@@ -35,75 +20,20 @@
   margin-right: 12pt;
 }
 
-.title-text {
-  font-size:14pt;
-}
-
-.title-icon {
-  font-size: 14pt;
-  margin-right: 15px;
-}
-
-#reviews {
-  text-align: left;
-  /*margin-top: 30px;*/
-  float:right;
-  width:66%;
-  border-left: 1px solid #e3e3e3;
-  padding: 0 20px;
-}
-
-.review-title {
-  font-size: 15pt;
-}
-
-.review {
-  margin-bottom: 50px;
-}
-
-.review-icon {
-  font-size: 13pt;
-  padding-right: 15pt;
-}
-
-.review table {
-  width: 97%;
-  margin-left: 3%;
-  border-left: 1px solid white;
-  margin-top: 10px;
-}
-
-th,td {
-  padding: 15px;
-}
-
-.pro {
-  font-size: 13pt;
-}
-
-.intern-date {
-  float:left;
-}
-
-.post-date {
-  float:right;
-  font-size: 10pt;
-  color: #b8b8b8;
-  text-shadow:none;
-}
-
 .company-img {
   width: 200px;
   height: 150px;
   vertical-align: middle;
 }
 
-#stats {
-}
 
 #company-stats {
   float:left;
-  width: 30%;
+  width: 100%;
+  /*border-bottom:1px solid #e3e3e3;*/
+  font-size: 12pt;
+  height: 50px;
+  background-color: #f8f2f8;
 }
 
 #images {
@@ -126,35 +56,60 @@ th,td {
   float:right;
 }
 
-
-#company-header a{
-  color: #000
-}
-
 #company-title {
-  font-size: 60pt;
+  font-size: 50pt;
   float:left;
-  margin-top: 70px;
   color:#444;
-  width: 100%;
   /*text-shadow: 0 1px 3px rgba(0,0,0,1);*/
 }
 
 #company-logo {
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   margin-bottom: 10px;
   margin-right: 10px;
 }
 
-.pos-review-rating {
-  color: green
+#company-header {
+  padding: 10px 0;
 }
 
-.neg-review-rating {
-  opacity: 0.3
+#reviews {
+  padding-top: 0px;
+  width: 100%;
 }
 
-.clear {
-  clear:both
+.post-date {
+  float:right;
+  font-size: 10pt;
+  color: #b8b8b8;
+  text-shadow:none;
+  margin-top: 10px;
+}
+
+#review-count {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+#reviews hr {
+  margin: 0;
+}
+
+
+.review-title {
+  margin-top: -10px;
+}
+
+.intern-date {
+  margin-top: -10px;
+}
+
+.review table {
+  margin-top: 0px;
+}
+
+.title-icon {
+  color: #000;
+  background-color: #E6FFB2;
 }

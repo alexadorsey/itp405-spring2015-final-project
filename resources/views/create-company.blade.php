@@ -6,12 +6,16 @@
 
 @section('content')
     <h1>Create a New Company</h1>
+	<hr/>
+	@if (Session::has('success'))
+        <p class="success-message">{{ Session::get('success') }}</p>
+    @endif
         
     @foreach ($errors->all() as $errorMessage)
         <p style="color:red">*{{ $errorMessage }}</p>
     @endforeach
     
-    <form method="post">
+    <form id="create-company-form">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         
         <div class="form-group">
@@ -25,8 +29,12 @@
         </div>
             
         
-        <a href="/dashboard/" class="btn btn-danger edit-button">Cancel</a>
-        <input type="submit" value="Add" class="btn btn-danger edit-button">
+        <input class="fancybox-buttons fancy-add" type="submit" value="Add">
         
     </form>
+@stop
+
+
+@section('javascript')
+	<script type="text/javascript" src="{{ asset('js/admin.js') }}"></script>
 @stop

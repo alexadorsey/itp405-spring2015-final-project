@@ -5,5 +5,20 @@
 
 .delete {
     float: right;
+    border-radius: 20px;
+}
+
+.delete:hover {
+    cursor: pointer;
+}
+
+.approve-icons {
+    padding-right: 25px;
+    margin-left: 20px;
+}
+
+.review-remove {
+    background-color: #FFB9B9;
+    margin-left: 20px;
     margin-right: 15px;
 }

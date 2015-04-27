@@ -1,0 +1,35 @@
+.form-group {
+    text-align: center;
+}
+
+.input-box {
+    padding-left: 0;
+    text-align: left;
+}
+
+.search-group {
+    width: 50%;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.form-control {
+    color: black;
+    width: 90%;
+    margin: auto;
+}
+
+.group-left {
+    margin-left: 45%;
+}
+
+.group-right {
+    margin-right: 45%;
+}
+

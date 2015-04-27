@@ -1,10 +1,37 @@
-.site-wrapper-inner {
-    padding-top: 70px;
+.questions {
+    text-align: left;
+    width: 50%;
 }
 
-#questions {
+.left {
+    float: left;
+}
+
+.right {
+    float: left;
+}
+
+form {
     text-align: center;
-    width: 600px;
-    margin: auto;
-    margin-top: 40px;
+}
+
+.input-box {
+    padding-left: 0;
+    text-align: left;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.input-question {
+    margin-top: -6px;
+}
+
+textarea {
+    width: 90%;
+}
+
+#right-col {
+    text-align: center;
 }

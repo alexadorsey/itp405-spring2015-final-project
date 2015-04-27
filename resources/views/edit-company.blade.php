@@ -6,7 +6,11 @@
 
 @section('content')
     <h1>Edit Company</h1>
-    
+    <hr/>
+	@if (Session::has('success'))
+        <p class="success-message">{{ Session::get('success') }}</p>
+    @endif
+	
     <form method="post">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         
@@ -23,8 +27,7 @@
         </div>
           
           
-        <a href="/dashboard/" class="btn btn-danger edit-button">Cancel</a>
-        <input type="submit" value="Edit" class="btn btn-danger edit-button">
+		<input class="fancybox-buttons fancy-add" type="submit" value="Edit">
 
         
     </form>

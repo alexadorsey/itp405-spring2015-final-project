@@ -1,5 +1,4 @@
 $(document).ready(function() {
-	$('#company-input').val("");
 	$('#position-input').val("");
 	$('#location-input').val("");
 	$('#position-id').val("");
@@ -28,11 +27,3 @@ function getLocationValue() {
     var location_id = val.attr('id');
     $('#location-id').val(location_id);
 }
-
-$(function() {
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-Token': $('meta[name="_token"]').attr('content')
-        }
-    });
-});

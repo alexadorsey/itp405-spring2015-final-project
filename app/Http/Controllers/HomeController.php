@@ -48,6 +48,7 @@ class HomeController extends Controller {
 	 * @return Response
 	 */
 	
+	private $devkey = "WDHQ43364147NGQQZP5R";
 	
 	
 	/**************************************/
@@ -110,10 +111,8 @@ class HomeController extends Controller {
 	
 	public function search(Request $request) {
 		
-		//$url = "https://jobs.github.com/positions.json?description=python&location=new+york";
-		$devkey = "WDHQ43364147NGQQZP5R";
-		$url = "http://api.careerbuilder.com/v1/jobsearch?DeveloperKey=$devkey&JobTitle=intern";  //&oauthtoken=**128 character long token**";
-		//$url = "https://jobs.github.com/positions.json?description=intern";
+		$url = "http://api.careerbuilder.com/v1/jobsearch?DeveloperKey=" . $this->devkey . "&JobTitle=intern";
+		
 		$cache_string = "jobs-";
 		
 		$position_id = $request->input('position-id');
@@ -143,17 +142,14 @@ class HomeController extends Controller {
 		if ($position_id && $location_val) {
 			// intersect
 			$reviews = $reviews_position->intersect($reviews_location);
-			//$url .= "+" . urlencode($position->name) . "&location=" . urlencode($location->name);
 			$url .= "&keywords=". urlencode($position->name) . '&location=' . urlencode($location->name);
 			$cache_string .= $position_id . "+" . urlencode($location->name);
 		} elseif ($position_id) {
 			$reviews = $reviews_position;
-			//$url .= "+" . urlencode($position->name);
 			$url .= "&keywords=" . urlencode($position->name);
 			$cache_string .= $position_id;
 		} elseif ($location_val) {
 			$reviews = $reviews_location;
-			//$url .= "&location=" . urlencode($location->name);
 			$url .= "&location=" . urlencode($location->name);
 			$cache_string .= urlencode($location->name);
 		} else {
@@ -162,9 +158,7 @@ class HomeController extends Controller {
 		}
 		
 		$reviews->load('company', 'position', 'city', 'state');
-		//echo $url;
-		//dd($cache_string);
-		if (Cache::has("jobs-$position_id+$location_val")) { // if in cache and hasn't expired yet
+		if (Cache::has($cache_string)) { // if in cache and hasn't expired yet
 			$json = Cache::get($cache_string);
 		} else {
 			$xml = simplexml_load_string(file_get_contents($url));
@@ -174,33 +168,7 @@ class HomeController extends Controller {
 		
 		$jobs = json_decode($json,TRUE);
 		$jobs = $jobs["Results"]["JobSearchResult"];
-		//dd($jobs);
-		
-		/*
-		$c = 0;
-		$i = 0;
-		while ($c<5 && $i < count($jobs)) {
-		//for ($i=0; $i<count($jobs); $i++) {
-			$job = $jobs[$i];
-			echo "<p> </p>";
-			if (!is_array($job["CompanyDetailsURL"])) {
-				
-				echo $job["CompanyDetailsURL"];
-				//echo "Is array? " . is_array($job["CompanyDetailsURL"]);
-				$c++;
-			}
-			$i++;
-		}
-		echo "C is: " . $c;
-		*/
-		/*
-		for ($i=0; $i<count($jobs); $i++) {
-			$job = $jobs[$i];
-			echo $job["CompanyDetailsURL"];
-			//dd($job["CompanyDetailsURL"]);
-		}
-		*/
-		//dd($jobs[1]["Location"]);
+
 
 		return view('search-position', [
 			'title' => 'Search Results',
@@ -213,71 +181,15 @@ class HomeController extends Controller {
 	}
 	
 	
-	
-    public function search2(Request $request) {
-        $company_id = $request->input('company-id');
-		$position_id = $request->input('position-id');
-		$city_name = $request->input('City');
-		$state_name = $request->input('State');
-		
-		
-		$position = Position::find($position_id);
-		
-		$images = Company::find($company_id)->images()->get();
-		
-		if ($company_id != "") {
-			$company = Company::find($company_id);
-			$reviews = Company::find($company_id)->reviews()->get();
-			$reviews->load('position', 'location');
-
-			
-			/* Company Statistics */
-			Company::setStats($reviews);
-
-			return view('search', [
-				'title' => $company->name,
-				'company' => $company,
-				'reviews' => $reviews,
-				//'position' => $position,
-				//'location' => $location,
-				'images' => $images,
-				'recommend_rating' => Company::$recommend_rating,
-				'compensation_rating' => Company::$compensation_rating,
-				'fair_hours_rating' => Company::$fair_hours_rating,
-				'future_work_rating' => Company::$future_work_rating
-			]);
-		}
-		
-		elseif ($position_id != "" && $location_id != "") {
-			$pos = $position->companies()->get();
-			$loc = $location->companies()->get();
-			$companies = $loc->intersect($pos);
-		}
-		
-		elseif ($position_id != "") {
-			$companies = $position->companies()->get();
-		}
-		
-		elseif ($location_id != "") {
-			$companies = $location->companies()->get();
-		}
-		
-		return view('search', [
-			'title' => 'Search Results',
-			'companies' => $companies,
-		]);
-		
-    }
-	
-	
 	/**************************************/
 	/* Review */
 	public function review() {
-		/*
+		
 		if (!Auth::check()) {
-			 return redirect('login');
+			//return redirect('login');
+			
 		}
-		*/
+		
 		/*
 		$company_id = \Illuminate\Support\Facades\Request::input('company_id');
 		$company = Company::find($company_id);
@@ -286,6 +198,25 @@ class HomeController extends Controller {
 		$positions = Position::all();
 		$cities = City::all();
 		$states = State::all();
+		
+		/* All internships */
+		$url = "http://api.careerbuilder.com/v1/jobsearch?DeveloperKey=" . $this->devkey . "&JobTitle=intern";
+		$cache_string = "jobs-all";
+				
+		if (Cache::has($cache_string)) { // if in cache and hasn't expired yet
+			$json = Cache::get($cache_string);
+		} else {
+			$xml = simplexml_load_string(file_get_contents($url));
+			$json = json_encode($xml);
+			Cache::put($cache_string, $json, 180) ;
+		}
+		
+		$jobs = json_decode($json,TRUE);
+		if (count($jobs["Results"]) > 0) {
+			$jobs = $jobs["Results"]["JobSearchResult"];
+		} else {
+			$jobs = [];
+		}
 		
 		/*
 		$url = "https://api.insideview.com/api/v1/companies";
@@ -298,7 +229,8 @@ class HomeController extends Controller {
 			'companies' => $companies,
 			'positions' => $positions,
 			'cities' => $cities,
-			'states' => $states
+			'states' => $states,
+			'jobs' => $jobs
         ]);
     }
 	
@@ -374,6 +306,7 @@ class HomeController extends Controller {
 			$company->positions()->updateExistingPivot('count', )
 		}
 		*/
+		
 		Company::find($company->id)->positions()->sync([$position->id], false);
 		
 		
@@ -408,8 +341,8 @@ class HomeController extends Controller {
 		}
 		
 		$user = Auth::user();
-		$admin = Admin::where('user_id', '=', $user->id);
-				
+		$admin = Admin::where('user_id', '=', $user->id)->first();
+	
 		if ($admin) {
 			$companies = Company::all();
 			$positions = Position::all();
@@ -427,6 +360,25 @@ class HomeController extends Controller {
 			]);
 		}
 		
+		/* All internships */
+		$url = "http://api.careerbuilder.com/v1/jobsearch?DeveloperKey=" . $this->devkey . "&JobTitle=intern";
+		$cache_string = "jobs-all";
+				
+		if (Cache::has($cache_string)) { // if in cache and hasn't expired yet
+			$json = Cache::get($cache_string);
+		} else {
+			$xml = simplexml_load_string(file_get_contents($url));
+			$json = json_encode($xml);
+			Cache::put($cache_string, $json, 180) ;
+		}
+		
+		$jobs = json_decode($json,TRUE);
+		if (count($jobs["Results"]) > 0) {
+			$jobs = $jobs["Results"]["JobSearchResult"];
+		} else {
+			$jobs = [];
+		}
+		
 		$reviews = Review::where('user_id', '=', $user->id)->get();
 		$reviews->load('position', 'city', 'state');
 		$reviews->sortByDesc('created_at');
@@ -434,7 +386,8 @@ class HomeController extends Controller {
 		return view('dashboard', [
 			'title' => 'Dashboard',
 			'user' => $user,
-			'reviews' => $reviews
+			'reviews' => $reviews,
+			'jobs' => $jobs
 		]);
 	}
 	
@@ -479,11 +432,31 @@ class HomeController extends Controller {
 		$cities = $company->cities()->get();
 		$states = $company->states()->get();
 		$images = $company->images()->get();
-		$reviews = $company->reviews()->where("approved", "=", 1)->get();
+		$reviews = $company->reviews()->where("approved", "=", 1)->orderBy('created_at', 'DESC')->get();
 		$reviews->load('position', 'city', 'state');
 		
 		/* Company Statistics */
 		Company::setStats($reviews);
+		
+		/* Internships at that company */
+		$url = "http://api.careerbuilder.com/v1/jobsearch?DeveloperKey=" . $this->devkey . "&JobTitle=intern";
+		$url .= "&CompanyName=". urlencode($company->name);
+		$cache_string = "jobs-" . $company->name;
+				
+		if (Cache::has($cache_string)) { // if in cache and hasn't expired yet
+			$json = Cache::get($cache_string);
+		} else {
+			$xml = simplexml_load_string(file_get_contents($url));
+			$json = json_encode($xml);
+			Cache::put($cache_string, $json, 180) ;
+		}
+		
+		$jobs = json_decode($json,TRUE);
+		if (count($jobs["Results"]) > 0) {
+			$jobs = $jobs["Results"]["JobSearchResult"];
+		} else {
+			$jobs = [];
+		}
 		
 		return view('company', [
 			'title' => $company->company_name . 'Profile',
@@ -495,7 +468,8 @@ class HomeController extends Controller {
 			'recommend_rating' => Company::$recommend_rating,
 			'compensation_rating' => Company::$compensation_rating,
 			'fair_hours_rating' => Company::$fair_hours_rating,
-			'future_work_rating' => Company::$future_work_rating
+			'future_work_rating' => Company::$future_work_rating,
+			'jobs' => $jobs
 		]);
 	}
 	
@@ -504,9 +478,30 @@ class HomeController extends Controller {
 	/* Companies */
 	public function companies() {
 		$companies = Company::all();
+		
+		/* All internships */
+		$url = "http://api.careerbuilder.com/v1/jobsearch?DeveloperKey=" . $this->devkey . "&JobTitle=intern";
+		$cache_string = "jobs-all";
+				
+		if (Cache::has($cache_string)) { // if in cache and hasn't expired yet
+			$json = Cache::get($cache_string);
+		} else {
+			$xml = simplexml_load_string(file_get_contents($url));
+			$json = json_encode($xml);
+			Cache::put($cache_string, $json, 180) ;
+		}
+		
+		$jobs = json_decode($json,TRUE);
+		if (count($jobs["Results"]) > 0) {
+			$jobs = $jobs["Results"]["JobSearchResult"];
+		} else {
+			$jobs = [];
+		}
+		
 		return view('companies', [
 			'title' => 'Companies',
-			'companies' => $companies
+			'companies' => $companies,
+			'jobs' => $jobs
 		]);
 	}
 	
@@ -536,7 +531,8 @@ class HomeController extends Controller {
 		}
 		$company->save();
 		
-		return redirect('/dashboard')->with('success', $company->name . ' successfully added.');
+		return redirect('/dashboard/create-company')->with('success', $company->name . ' successfully added.');
+		//return redirect('/dashboard')->with('success', $company->name . ' successfully added.');
 	}
 	
 	
@@ -560,7 +556,8 @@ class HomeController extends Controller {
 		}
 		$company->save();
 		
-		return redirect('/dashboard')->with('success', $company->name . ' successfully edited.');
+		return redirect('/dashboard/edit-company/' . $company->id)->with('success', $company->name . ' successfully edited.');
+		//return redirect('/dashboard')->with('success', $company->name . ' successfully edited.');
 	}
 	
 	/* Delete a company */

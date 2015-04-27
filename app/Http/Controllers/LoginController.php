@@ -7,6 +7,7 @@ use App\Http\Controllers\View;
 use App\User;
 use Hash;
 use Auth;
+use Response;
 
 class LoginController extends Controller {
 	
@@ -15,6 +16,7 @@ class LoginController extends Controller {
 	public function signup() {
 		return view('signup', [
 			'title' => 'Sign Up',
+			'first' => true
 		]);
 	}
 
@@ -29,10 +31,14 @@ class LoginController extends Controller {
 			$user->save();
 			
 			Auth::loginUsingId($user->id); // Logs in the newly created user
-			return redirect('dashboard');
+			//return redirect('dashboard');
+			return view('signup', [
+				'title' => 'Sign Up',
+				'first' => false
+			]);
 			//return redirect('login');
 		}
-		return redirect('signup')->withErrors($validation->errors());
+		return redirect('signup')->withInput()->withErrors($validation->errors());
 	}
 	
 	
@@ -41,6 +47,7 @@ class LoginController extends Controller {
 	public function login() {
 		return view('login', [
 			'title' => 'Login',
+			'first' => true
 		]);
 	}
 	
@@ -53,16 +60,20 @@ class LoginController extends Controller {
 		$remember_me = Request::input('remember_me') == 'on' ? true : false;
     
 		if (Auth::attempt($credentials, $remember_me)) {
-			return redirect()->intended('dashboard');
+			//return redirect()->intended('dashboard');
+			return view('login', [
+				'title' => 'Login',
+				'first' => false
+			]);
 		}
-		return redirect('login')->with('fail', 'Email and/or password incorrect.');
+		return redirect('login')->withInput()->with('fail', 'Email and/or password incorrect.');
 	}
 	
 	
 	
 	public function logout() {
 		Auth::logout();
-		return redirect('login');
+		return redirect('home');
 	}
 
 }
