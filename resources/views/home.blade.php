@@ -15,6 +15,7 @@
 		
 	<br/>	
 	<form method="get" action="/search">
+		<input type="hidden" name="order" id="order" value="date_posted_newest">
 		<div id="search-box">
 		
 			<div class="search-group left">

@@ -2,6 +2,7 @@
 
 @section('assets')
     <link rel="stylesheet" href="{{ asset('css/search-position.css') }}" type="text/css">
+	<script type="text/javascript" src="{{ asset('js/search.js') }}"></script>
 @stop
 
 @include('header')
@@ -26,30 +27,52 @@
 		<div id="right-col">
 			<div id="top-header">
 				<span id="page-header">{{ count($reviews) }}
-				@if ( count($reviews) == 1)
-					review
-				@else
-					reviews
-				@endif
-				@if ($position)
-					for '{{ $position->name }}'
-				@endif
-				@if ($location)
-					in '{{ $location->name }}'
-				@endif
-				@if (!$position && !$location)
-					for 'all internships'
-				@endif
+					@if ( count($reviews) == 1)
+						review
+					@else
+						reviews
+					@endif
+					@if ($position)
+						for '{{ $position->name }}'
+					@endif
+					@if ($location)
+						in '{{ $location->name }}'
+					@endif
+					@if (!$position && !$location)
+						for 'all internships'
+					@endif
 				</span>
-				<div id="review-sort">
-					<span>Sort by:</span>
-					<select>
-						<option class="sort-by" name="sort_by" value="date_posted_newest" checked onclick="sortReviews({{ $reviews }}, 'date_posted_newest')">Date Posted: Newest to Oldest</option>
-						<option class="sort-by" name="sort_by" value="date_posted_newest" onclick="sortReviews({{ $reviews }}, 'date_posted_oldest')">Date Posted: Oldest to Newest</option>
-						<option class="sort-by" name="sort_by" value="company_rating_high" onclick="sortReviews({{ $reviews }}, 'company_rating_high')">Company Rating: High to Low</option>
-						<option class="sort-by" name="sort_by" value="company_rating_low" onclick="sortReviews({{ $reviews }}, 'company_rating_low')">Company Rating: Low to High</option>
-					</select>
-				</div>
+				
+				<form id="sort-reviews" method="get">
+					<input type="hidden" name="order" id="order" value="{{ $order }}">
+					@if ($position)
+						<input type="hidden" id="position-id" name="position-id" value="{{ $position->id }}">
+					@else
+						<input type="hidden" id="position-id" name="position-id" value="{{ null }}">
+					@endif
+					
+					@if ($location)
+						<input type="hidden" id="location-input" name="location-input" value="{{ $location->name }}">
+					@else
+						<input type="hidden" id="location-input" name="location-input" value="{{ null }}">
+					@endif
+					
+					<div id="review-sort">	
+						<span>Sort by:</span>
+						<select id="sort-by-options">
+							<script>
+								setSortBy('{{ $order }}')
+							</script>
+							<!--
+							<option class="sort-by" name="sort_by" value="date_posted_newest" onclick="sortReviews('date_posted_newest')">Date Posted: Newest to Oldest</option>
+							<option class="sort-by" name="sort_by" value="date_posted_newest" onclick="sortReviews('date_posted_oldest')">Date Posted: Oldest to Newest</option>
+							<option class="sort-by" name="sort_by" value="company_rating_high" onclick="sortReviews('company_rating_high')">Company Rating: High to Low</option>
+							<option class="sort-by" name="sort_by" value="company_rating_low" onclick="sortReviews('company_rating_low')">Company Rating: Low to High</option>
+							-->
+						</select>
+					</div>
+					<button style="visibility: hidden" type="submit">Click me</button>
+				</form>
 			</div>
 			<div class="clear"></div>
 		
@@ -120,7 +143,6 @@
 	<script type="text/javascript" src="{{ asset('fancybox/lib/jquery.mousewheel-3.0.6.pack.js') }}"></script>
     <script type="text/javascript" src="{{ asset('fancyBox/source/jquery.fancybox.pack.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('js/home.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/search.js') }}"></script>
 @stop
 
 

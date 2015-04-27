@@ -72,7 +72,11 @@ class HomeController extends Controller {
 	
     /**************************************/
 	/* Sort Results */
-	public function searchSortBy(Request $request) {
+	public function searchSortBy($method, Request $request) {
+		$reviews = $request->input('reviews');
+		//$reviews = Input::get('reviews');
+		dd($reviews);
+		/*
 		$order = Input::get('order');
 		$revs = Input::get('reviews');
 		$reviews = new Collection;
@@ -105,6 +109,7 @@ class HomeController extends Controller {
 		} else {
 			return Response::json(['success'=>false,'data'=>$data]);
 		}
+		*/
 	}
 	
 	
@@ -117,6 +122,7 @@ class HomeController extends Controller {
 		
 		$position_id = $request->input('position-id');
 		$location_val = $request->input('location-input');
+		$order = $request->input('order');
 				
 		$position = null;
 		$location = null;
@@ -158,6 +164,8 @@ class HomeController extends Controller {
 		}
 		
 		$reviews->load('company', 'position', 'city', 'state');
+		$reviews = Review::sortByOrder($reviews, 'num_reviews_high');
+		$reviews = Review::sortByOrder($reviews, $order);
 		if (Cache::has($cache_string)) { // if in cache and hasn't expired yet
 			$json = Cache::get($cache_string);
 		} else {
@@ -175,7 +183,8 @@ class HomeController extends Controller {
 			'position' => $position,
 			'location' => $location,
 			'reviews' => $reviews,
-			'jobs' => $jobs
+			'jobs' => $jobs,
+			'order' => $order
         ]);
 
 	}

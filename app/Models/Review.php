@@ -39,6 +39,36 @@ class Review extends Model {
             'Recommend' => 'required'
         ]);
     }
+    
+    public static function sortByOrder($reviews, $order) {
+        if ($order == 'company_rating_high') {
+			$reviews->sortByDesc(function($review) {
+				return Company::find($review['company_id'])->recommend_percent();
+			});
+		}
+		elseif ($order == 'company_rating_low') {
+			$reviews->sortBy(function($review) {
+				return Company::find($review['company_id'])->recommend_percent();
+			});
+		}
+		elseif ($order == 'date_posted_newest') {
+			$reviews->sortByDesc('created_at');
+		}
+		elseif ($order == 'date_posted_oldest') {
+			$reviews->sortBy('created_at');
+		}
+        elseif ($order == 'num_reviews_high') {
+			$reviews->sortByDesc(function($review) {
+				return count(Company::find($review['company_id'])->reviews());
+			});
+		}
+        elseif ($order == 'num_reviews_low') {
+			$reviews->sortBy(function($review) {
+				return count(Company::find($review['company_id'])->reviews());
+			});
+		}
+        return $reviews;
+    }
 }
 
 ?>
