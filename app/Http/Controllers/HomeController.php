@@ -130,17 +130,17 @@ class HomeController extends Controller {
 		
 		if ($position_id) {
 			$position = Position::find($position_id);
-			$reviews_position = $position->reviews()->where("approved", "=", 1)->orderBy('created_at', 'DESC')->get();
+			$reviews_position = $position->approvedReviews()->orderBy('created_at', 'DESC')->get();
 		}
 		
 		if ($location_val) {
 			$location = City::where('name', '=', $location_val)->first();
 			if ($location) {
-				$reviews_location = City::find($location->id)->reviews()->where("approved", "=", 1)->orderBy('created_at', 'DESC')->get();
+				$reviews_location = City::find($location->id)->approvedReviews()->orderBy('created_at', 'DESC')->get();
 			} else {
 				$location = State::where('name', '=', $location_val)->first();
 				if ($location) {
-					$reviews_location = State::find($location->id)->reviews()->where("approved", "=", 1)->orderBy('created_at', 'DESC')->get();
+					$reviews_location = State::find($location->id)->approvedReviews()->orderBy('created_at', 'DESC')->get();
 				}
 			}
 		}
@@ -159,13 +159,12 @@ class HomeController extends Controller {
 			$url .= "&location=" . urlencode($location->name);
 			$cache_string .= urlencode($location->name);
 		} else {
-			//$url .= "+keywords=internship";
 			$reviews = Review::where("approved", "=", 1)->get();
 		}
 		
 		$reviews->load('company', 'position', 'city', 'state');
-		$reviews = Review::sortByOrder($reviews, 'num_reviews_high');
 		$reviews = Review::sortByOrder($reviews, $order);
+		
 		if (Cache::has($cache_string)) { // if in cache and hasn't expired yet
 			$json = Cache::get($cache_string);
 		} else {

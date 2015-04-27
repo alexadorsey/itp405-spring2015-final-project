@@ -13,8 +13,6 @@
 
 Route::get('home', 'HomeController@home');
 Route::get('search', 'HomeController@search');
-//Route::post('search/sort', 'HomeController@searchSortBy');
-Route::get('search/sort/{method}', 'HomeController@searchSortBy');
 Route::get('dashboard', 'HomeController@dashboard');
 Route::get('/dashboard/deleteReview/{review_id}', 'HomeController@deleteReview');
 
@@ -40,9 +38,9 @@ Route::get('login', 'LoginController@login');
 Route::post('login', 'LoginController@postLogin');
 Route::get('logout', 'LoginController@logout');
 
-/*
-Route::get('/', 'WelcomeController@index');
 
+Route::get('/', 'WelcomeController@index');
+/*
 Route::get('home', 'HomeController@index');
 
 Route::controllers([

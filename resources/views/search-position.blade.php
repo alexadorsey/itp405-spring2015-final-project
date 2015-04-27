@@ -63,12 +63,6 @@
 							<script>
 								setSortBy('{{ $order }}')
 							</script>
-							<!--
-							<option class="sort-by" name="sort_by" value="date_posted_newest" onclick="sortReviews('date_posted_newest')">Date Posted: Newest to Oldest</option>
-							<option class="sort-by" name="sort_by" value="date_posted_newest" onclick="sortReviews('date_posted_oldest')">Date Posted: Oldest to Newest</option>
-							<option class="sort-by" name="sort_by" value="company_rating_high" onclick="sortReviews('company_rating_high')">Company Rating: High to Low</option>
-							<option class="sort-by" name="sort_by" value="company_rating_low" onclick="sortReviews('company_rating_low')">Company Rating: Low to High</option>
-							-->
 						</select>
 					</div>
 					<button style="visibility: hidden" type="submit">Click me</button>

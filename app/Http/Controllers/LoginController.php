@@ -1,9 +1,7 @@
 <?php namespace App\Http\Controllers;
 
-
 use Illuminate\Support\Facades\Request;
 use App\Http\Controllers\View;
-
 use App\User;
 use Hash;
 use Auth;
@@ -30,13 +28,11 @@ class LoginController extends Controller {
 			$user->password = Hash::make(Request::input('password'));
 			$user->save();
 			
-			Auth::loginUsingId($user->id); // Logs in the newly created user
-			//return redirect('dashboard');
+			Auth::loginUsingId($user->id);
 			return view('signup', [
 				'title' => 'Sign Up',
 				'first' => false
 			]);
-			//return redirect('login');
 		}
 		return redirect('signup')->withInput()->withErrors($validation->errors());
 	}
@@ -60,7 +56,6 @@ class LoginController extends Controller {
 		$remember_me = Request::input('remember_me') == 'on' ? true : false;
     
 		if (Auth::attempt($credentials, $remember_me)) {
-			//return redirect()->intended('dashboard');
 			return view('login', [
 				'title' => 'Login',
 				'first' => false
@@ -70,7 +65,8 @@ class LoginController extends Controller {
 	}
 	
 	
-	
+	/**************************************/
+	/* Log Out */
 	public function logout() {
 		Auth::logout();
 		return redirect('home');

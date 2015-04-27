@@ -59,13 +59,19 @@ class Review extends Model {
 		}
         elseif ($order == 'num_reviews_high') {
 			$reviews->sortByDesc(function($review) {
-				return count(Company::find($review['company_id'])->reviews());
+				return count(Company::find($review['company_id'])->approvedReviews()->get());
 			});
 		}
         elseif ($order == 'num_reviews_low') {
 			$reviews->sortBy(function($review) {
-				return count(Company::find($review['company_id'])->reviews());
+				return count(Company::find($review['company_id'])->approvedReviews()->get());
 			});
+		}
+        elseif ($order == 'intern_date_recent') {
+			$reviews->sortByDesc('intern_start');
+		}
+        elseif ($order == 'intern_date_old') {
+			$reviews->sortBy('intern_start');
 		}
         return $reviews;
     }

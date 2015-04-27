@@ -56,22 +56,7 @@
                 <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Confirm Password">
             </div>
         </div>
-<!--
-        <div class="form-group">
-            <div class="col-xs-offset-4 col-xs-5">
-                <div class="checkbox">
-                    <label><input type="checkbox"> Remember me</label>
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-xs-offset-4 col-xs-5">
-                <button type="submit" class="btn btn-primary">Login</button>
-            </div>
-        </div>
--->
-            
+      
         <input type="submit" value="Sign Up" class="btn btn-info">
         
     </form>
