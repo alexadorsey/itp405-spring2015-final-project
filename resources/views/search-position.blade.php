@@ -12,17 +12,21 @@
 		<div id="job-listings">
 			<h4>Internship Postings:</h4>
 			<p>Powered by CareerBuilder.com</p>
-			<?php $index=0; $count = 0 ?>
-			@while ($count<7 && $index<count($jobs))
-				<?php $job = $jobs[$index] ?>
-				@if (!is_array($job["CompanyDetailsURL"]))
-					<span class="job-listings-company">{{ $job["Company"] }}</span><br/>
-					<span class="job-listings-location">{{ $job["Location"] }}</span><br/>
-					<span class="job-listings-job"><a target="_blank" href="{{ $job["CompanyDetailsURL"] }}">{{ $job["JobTitle"] }}</a></span><br/><br/>
-					<?php $count++; ?>
-				@endif
-				<?php $index++; ?>
-			@endwhile
+			@if (count($jobs) == 0)
+				<span class="job-listings-company">No internships</span>
+			@else
+				<?php $index=0; $count = 0 ?>
+				@while ($count<7 && $index<count($jobs))
+					<?php $job = $jobs[$index] ?>
+					@if (!is_array($job["CompanyDetailsURL"]))
+						<span class="job-listings-company">{{ $job["Company"] }}</span><br/>
+						<span class="job-listings-location">{{ $job["Location"] }}</span><br/>
+						<span class="job-listings-job"><a target="_blank" href="{{ $job["CompanyDetailsURL"] }}">{{ $job["JobTitle"] }}</a></span><br/><br/>
+						<?php $count++; ?>
+					@endif
+					<?php $index++; ?>
+				@endwhile
+			@endif
 		</div>
 		<div id="right-col">
 			<div id="top-header">
@@ -58,7 +62,7 @@
 					@endif
 					
 					<div id="review-sort">	
-						<span>Sort by:</span>
+						<span>Sort by: </span>
 						<select id="sort-by-options">
 							<script>
 								setSortBy('{{ $order }}')
@@ -104,28 +108,31 @@
 								@endif
 							</span>
 						</div>
-						<br/>
-						<span class="review-title" style="float:left;">{{ $review->position->name }} at {{ $review->city->name }}, {{ $review->state->abbreviation }}</span>
-						<span class="post-date">Posted {{ DATE_FORMAT(new DateTime($review->created_at), 'n/j/y') }}</span>
-						<div style="clear:both"></div>
-						<span class="intern-date">{{ DATE_FORMAT(new DateTime($review->intern_start), 'F Y') }} - {{ DATE_FORMAT(new DateTime($review->intern_end), 'F Y') }}</span>
-						<div class="clear"></div>
-						<table>
-							<col class="pros-table-col" width="50%">
-							<col class="cons-table-col" width="50%">
-							<tr>
-								<td class="pro"><span class="pro-text">PROS</span></td>
-								<td class="pro"><span class="con-text">CONS</span></td>
-								
-							</tr>
-							<tr>
-								<td>{{ $review->pros }}</td>
-								<td>{{ $review->cons }}</td>
-							</tr>
-						</table>
+						
+						<div class="bottom-review">
+							<br/>
+							<span class="review-title" style="float:left;">{{ $review->position->name }} in {{ $review->city->name }}, {{ $review->state->abbreviation }}</span>
+							<span class="post-date">Posted {{ DATE_FORMAT(new DateTime($review->created_at), 'n/j/y') }}</span>
+							<div style="clear:both"></div>
+							<span class="intern-date">{{ DATE_FORMAT(new DateTime($review->intern_start), 'F Y') }} - {{ DATE_FORMAT(new DateTime($review->intern_end), 'F Y') }}</span>
+							<div class="clear"></div>
+							<hr class="review-hr"/>
+							<table>
+								<col class="pros-table-col" width="50%">
+								<col class="cons-table-col" width="50%">
+								<tr>
+									<td class="pro"><span class="pro-text">PROS</span></td>
+									<td class="pro"><span class="con-text">CONS</span></td>
+									
+								</tr>
+								<tr>
+									<td>{{ $review->pros }}</td>
+									<td>{{ $review->cons }}</td>
+								</tr>
+							</table>
+						</div>
 					</div>
 				@endforeach
-				<hr/>
 			</div>
 		</div>	
 		<div class="clear"></div>

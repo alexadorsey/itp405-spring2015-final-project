@@ -1,3 +1,7 @@
+.site-wrapper-inner {
+    padding-top: 30px;
+}
+
 #company-results {
     width: 700px;
     margin: auto;
@@ -36,13 +40,13 @@
   text-align: center;
   /*margin-top: 30px;*/
   float:left;
-  width:100%;
-  padding-top: 20px;
+  padding-top: 80px;
   position:relative;
   overflow-y: scroll;
   height: 100%;
   z-index: 1;
   text-shadow: none;
+  margin: 0 2%;
 }
 
 .rating-icon {
@@ -56,9 +60,10 @@
 
 .company-box {
   margin-bottom: 40px;
-  width: 260px;
+  padding-bottom: 15px;
+  width: 280px;
   float: left;
-  /*border-left: 1px solid #e3e3e3;*/
+  border: 1px solid #f8f2f8;
   margin-right: 20px;
 }
 

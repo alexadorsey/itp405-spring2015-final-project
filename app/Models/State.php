@@ -11,6 +11,10 @@ class State extends Model {
     public function reviews() {
         return $this->hasMany('App\Models\Review');
     }
+    
+    public function approvedReviews() {
+        return $this->reviews()->where("approved", "=", 1);
+    }
 }
 
 ?>

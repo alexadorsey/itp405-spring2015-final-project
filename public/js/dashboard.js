@@ -10,20 +10,57 @@ function confirmDeleteCompany(url) {
     }
 }
 
+function confirmDeletePosition(url) {
+    if (confirm('Are sure sure you want to delete ' + $('#position-id option:selected').text() + '?')) {
+        window.location.href = url + '/' + $('#position-id').val();
+    }
+}
+
 function editCompany(url) {
     url += '/' + $('#company-id').val();
     $.fancybox.open({
         href: url,
         type: 'iframe',
         fitToView	: false,
-		width		: '450',
-		height		: '400',
+		width		: '440',
+		height		: '280',
 		autoSize	: false,
 		closeClick	: false,
 		openEffect	: 'none',
 		closeEffect	: 'none'
     });
 }
+
+function editPosition(url) {
+    url += '/' + $('#position-id').val();
+    $.fancybox.open({
+        href: url,
+        type: 'iframe',
+        fitToView	: false,
+		width		: '440',
+		height		: '250',
+		autoSize	: false,
+		closeClick	: false,
+		openEffect	: 'none',
+		closeEffect	: 'none'
+    });
+}
+
+function editCity(url) {
+    url += '/' + $('#city-id').val();
+    $.fancybox.open({
+        href: url,
+        type: 'iframe',
+        fitToView	: false,
+		width		: '440',
+		height		: '250',
+		autoSize	: false,
+		closeClick	: false,
+		openEffect	: 'none',
+		closeEffect	: 'none'
+    });
+}
+
 
 
 function reviewReview(url, review_id) {

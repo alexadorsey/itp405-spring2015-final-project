@@ -3,6 +3,7 @@
 @section('assets')
 	<link rel="stylesheet" href="{{ asset('css/search-position.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/companies.css') }}" type="text/css">
+	<script type="text/javascript" src="{{ asset('js/search.js') }}"></script>
 @stop
 
 @include('header');
@@ -13,7 +14,7 @@
 		<h4>Internship Postings:</h4>
 		<p>Powered by CareerBuilder.com</p>
 		@if (count($jobs) == 0)
-			<span style="color: orange">No internships for this company found.</span>
+			<span style="color: orange">No internships found.</span>
 		@else
 			<?php $index=0; $count = 0 ?>
 			@while ($count<7 && $index<count($jobs))
@@ -30,8 +31,35 @@
 	</div>
     
 	<div id="right-col">
+		<div id="top-header">
+			<span id="page-header">{{ count($companies) }}
+				@if ( count($companies) == 1)
+					company
+				@else
+					companies
+				@endif
+			</span>
+			
+			<form id="sort-reviews" method="get">
+				<input type="hidden" name="order" id="order" value="{{ $order }}">	
+				<div id="review-sort">	
+					<span>Sort by:</span>
+					<select id="sort-by-options">
+						<script>
+							setSortByCompanies('{{ $order }}')
+						</script>
+					</select>
+				</div>
+			</form>
+		</div>
+		<div class="clear"></div>
 		<div id="companies">
+			<?php $i = 0; ?>
 			@foreach ($companies as $company)
+				@if ($i % 3 == 0)
+					<div class="row-container">
+					<?php $end_i = $i+3 ?>
+				@endif
 				<div class="company-box">
 				
 					<!-- Header -->
@@ -83,9 +111,13 @@
 					@else
 						<span class="location">No locations</span>
 					@endif
-					</div>	
-						
-				</div>	
+					</div>			
+				</div>
+				@if ($i == $end_i-1 || $i == count($companies)-1)
+					</div>
+					<div style="clear:both"></div>
+				@endif
+				<?php $i++ ?>
 			@endforeach
 		</div>
 	</div>

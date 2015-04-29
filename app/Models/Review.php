@@ -5,6 +5,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Review extends Model {
     
+    public function __construct() {
+    }
+    
     public function company() {
         return $this->belongsTo('App\Models\Company');
     }

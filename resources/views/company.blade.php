@@ -61,6 +61,7 @@
 						<span id="review-count">{{ count($reviews) }} reviews</span>
 					@endif
 					<hr/>
+					<br/>
 					@foreach ($reviews as $review)
 					<div class="review">
 						<div class="top-review-row">
@@ -95,6 +96,8 @@
 						<span class="intern-date">{{ DATE_FORMAT(new DateTime($review->intern_start), 'F Y') }} - {{ DATE_FORMAT(new DateTime($review->intern_end), 'F Y') }}</span>
 						<span class="post-date">Posted {{ DATE_FORMAT(new DateTime($review->created_at), 'n/j/y') }}</span>
 						<div class="clear"></div>
+						<hr/>
+						<br/>
 						<table>
 							<col class="pros-table-col" width="50%">
 							<col class="cons-table-col" width="50%">
@@ -108,8 +111,8 @@
 								<td>{{ $review->cons }}</td>
 							</tr>
 						</table>
+						<br/>
 					</div>
-					<hr/>
 					@endforeach
 				@endif	
 			</div>

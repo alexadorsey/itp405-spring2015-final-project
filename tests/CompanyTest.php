@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\Company;
+use App\Models\Review;
+use Illuminate\Database\Eloquent\Collection;
 
 class CompanyTest extends TestCase {
     
@@ -24,6 +26,12 @@ class CompanyTest extends TestCase {
         Mockery::close();
     }
     
+    public function testRecommendPercentNoReviews() {
+        $company = new Company();
+        $results = $company->recommend_percent();
+        $this->assertEquals($results, 0);
+    }
+    
     public function testSearchPullsFromCache() {
         $json = '{"total": 0, "jobs":[]}';
         $client = Mockery::mock('App\Services\Client');
@@ -34,7 +42,7 @@ class CompanyTest extends TestCase {
         
         $cb = new App\Services\CareerBuilder($cache, $client);
         $results = $cb->getJobs("", 'jobs-all');
-        $this->assertEquals($results, json_decode($json));    
+        $this->assertEquals($results, json_decode($json)); 
     }
 }
 

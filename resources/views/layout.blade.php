@@ -11,7 +11,7 @@
 	<link href='//fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 	<link href='//fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
 	<link href='//fonts.googleapis.com/css?family=Hind|Muli' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" href="{{ asset('css/cover.css') }}" type="text/css">
+	<link href='//fonts.googleapis.com/css?family=Alegreya|Crimson+Text' rel='stylesheet' type='text/css'>	<link rel="stylesheet" href="{{ asset('css/cover.css') }}" type="text/css">
 	@yield('assets')
 	
 </head>

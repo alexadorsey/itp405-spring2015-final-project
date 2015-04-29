@@ -1,3 +1,7 @@
+.site-wrapper-inner {
+    padding-top: 150px;
+}
+
 .form-group {
     text-align: center;
 }
@@ -8,7 +12,8 @@
 }
 
 .search-group {
-    width: 50%;
+    width: 33%;
+    float:left;
 }
 
 .left {
@@ -21,7 +26,7 @@
 
 .form-control {
     color: black;
-    width: 90%;
+    width: 100%;
     margin: auto;
 }
 
@@ -31,5 +36,9 @@
 
 .group-right {
     margin-right: 45%;
+}
+
+body {
+    background-color: f8f2f8;
 }
 

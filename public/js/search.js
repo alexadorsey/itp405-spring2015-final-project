@@ -11,6 +11,15 @@ function setSortBy(sort_order) {
     document.getElementById('sort-by-options').innerHTML = options;
 }
 
+function setSortByCompanies(sort_order) {
+    var options = ""
+    options += sortByOptions('company_rating_high', 'Company Rating: High to Low', sort_order);
+    options += sortByOptions('company_rating_low', 'Company Rating: Low to High', sort_order);
+    options += sortByOptions('num_reviews_high', 'Number of Reviews: High to Low', sort_order);
+    options += sortByOptions('num_reviews_low', 'Number of Reviews: Low to High', sort_order);
+    document.getElementById('sort-by-options').innerHTML = options;
+}
+
 function sortByOptions(order, text, sort_order) {
     var option = "";
     option += '<option ';
@@ -19,7 +28,6 @@ function sortByOptions(order, text, sort_order) {
     }
     option += 'class="sort-by" name="sort_by" value="' + order;
     option += '" onclick="sortReviews(\'' + order + '\')">' + text + '</option>';
-    console.log(option);
     return option;
 }
 

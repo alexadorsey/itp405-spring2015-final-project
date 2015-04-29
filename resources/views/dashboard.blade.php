@@ -2,8 +2,8 @@
 
 @section('assets')
     <link rel="stylesheet" href="{{ asset('css/search-position.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}" type="text/css">
 @stop
 
 @include('header')
@@ -29,12 +29,19 @@
         <div id="right-col">
             <div id="company-header">
 				<h1 id="company-title">Welcome {{ $user->first_name }}!</h1>
-                <h4>{{ count($reviews) }} Reviews</h4>
+                <h4>You have written {{ count($reviews) }} Reviews</h4>
 				<div class="clear"></div>
 			</div>
             <div id="reviews">
 				@foreach ($reviews as $review)
-					<div class="review" id="review-{{ $review->id }}">
+                    <div class="approval-div">
+                    @if ($review->approved == 0)
+                        <p class="under-review">Review Awaiting Approval</p>
+                        <div class="review not-approved" id="review-{{ $review->id }}">
+                    @else
+                        <div class="review" id="review-{{ $review->id }}">
+                    @endif
+                    @if ($reivew->approved == 0 || $review->approved == 1)
 						<div class="top-review-row">
 							@if ($review->company->icon)
 							   <img class="company-logo" src="{{ $review->company->icon }}"/>
@@ -89,6 +96,8 @@
 							</tr>
 						</table>
 					</div>
+                    </div>
+                    @endif
 				@endforeach
 				<hr/>
 			</div>

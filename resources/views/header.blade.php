@@ -10,6 +10,13 @@
           @else
               <li><a href="{{ url('home') }}">Home</a></li>
           @endif
+
+          
+          @if ($title == 'Companies')
+              <li class="active"><a href="{{ url('companies') }}">Companies</a></li>
+          @else
+              <li><a href="{{ url('companies') }}">Companies</a></li>
+          @endif
           
           @if ($title == 'Review')
               <li class="active"><a href="{{ url('review') }}">Review</a></li>
@@ -20,13 +27,6 @@
                     <li><a href="{{ url('review') }}">Review</a></li>
                 @endif
               
-          @endif
-          
-          
-          @if ($title == 'Companies')
-              <li class="active"><a href="{{ url('companies') }}">Companies</a></li>
-          @else
-              <li><a href="{{ url('companies') }}">Companies</a></li>
           @endif
           
           @if (Auth::check())

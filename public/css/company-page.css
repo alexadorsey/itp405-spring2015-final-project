@@ -71,12 +71,11 @@
 }
 
 #company-header {
-  padding: 10px 0;
+  padding: 10px 20px;
 }
 
 #reviews {
   padding-top: 0px;
-  width: 100%;
 }
 
 .post-date {

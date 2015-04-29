@@ -3,17 +3,16 @@
 }
 
 .inner-body {
-  padding-right: 5%;
+  padding-right: 0%;
   padding-left: 0%;
 }
 
 #right-col {
     text-align: left;
     float:right;
-    width: 75%;
+    width: 76%;
     margin-right: 0px;
-    border-left: 1px solid #e3e3e3;
-    padding-left: 20px;
+    padding-left: 0px;
     margin-top: -20px;
     padding-top: 20px;
 }
@@ -31,12 +30,14 @@
     text-align: left;
     font-size: 9pt;
     padding-top: 15px;
-    background-color: #f8f2f8;
+    background-color: #F8F2F8;
     padding-left: 3%;
     padding-right: 3%;
     position: fixed;
     height: 100%;
     text-shadow: none;
+    border-right: 0px solid #000;
+    color: #000;
 }
 
 
@@ -55,8 +56,9 @@
 
 #top-header {
     position: fixed;
-    background-color: #fff;
-    width: 70%;
+    color: black;
+    background-color: rgba(255, 255, 255, 0.95);
+    width: 76%;
     z-index: 2;
     height: 70px;
     border-bottom: 1px solid #e3e3e3;
@@ -76,6 +78,7 @@
   margin-top: 30px;
   padding: 0 20px;
   font-size: 9pt;
+  color: #000;
 }
 
 #review-sort input {
@@ -115,10 +118,14 @@
   height: 100%;
   z-index: 1;
   text-shadow: none;
+  margin: 0 2%;
+  width: 96%;
 }
 
 .top-review-row {
-    background-color: #f8f2f8;
+    background-color: #F8F2F8;
+    text-shadow: 0 0 3px #fff;
+    padding: 3px 0;
 }
 
 .company-logo {
@@ -141,10 +148,22 @@
   font-size: 11pt;
   float: left;
   color: orange;
+  margin-left: 10px;
 }
 
 .review {
   margin-bottom: 30px;
+  /*
+  background-color: #F2F8F8;
+  background-color: #FDEEE5;
+  background-color: #f8f2f8;
+  background-color: #e6ffff;
+  background-color: #fafafa;
+  */
+  border-bottom: 1px solid #f8f2f8;
+  border-right: 1px solid #f8f2f8;
+  border-left: 1px solid #f8f2f8;
+  
 }
 
 .review-icon {
@@ -174,27 +193,32 @@
 .title-icon-recommend {
   background-color: #CCFFFF;
   margin-right: 10px;
+  color: black;
 }
 
 .title-icon-fair {
   background-color: #CCFFFF;/*blue*/
+  color: black;
 }
 
 .title-icon-pay {
   background-color: #CCFFFF; /*red*/
+  color: black;
 }
 
 .title-icon-work {
   background-color: #CCFFFF; /*#FF0066*/
+  color: black;
 }
-
 
 .review table {
   width: 97%;
   padding: 0 3%;
   margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 10pt;
 }
-
 
 .review th,td {
   padding: 5px 10px;
@@ -233,6 +257,7 @@
 
 .intern-date {
   float:left;
+  margin-left: 10px;
 }
 
 .post-date {
@@ -241,6 +266,7 @@
   color: #b8b8b8;
   text-shadow:none;
   margin-top: -10px;
+  margin-right: 10px;
 }
 
 .clear {
@@ -252,5 +278,15 @@
     outline: none;
 }
 
+#right-col a {
+    color: black;
+}
 
+.review-hr {
+    width: 95%;
+}
 
+.bottom-review {
+    background-color: white;
+    padding-bottom: 10px;
+}

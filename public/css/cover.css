@@ -13,17 +13,15 @@ a:hover {
 /*
  * Base structure
  */
-
-html,
-body {
+html {
   height: 100%;
-  /*background-color: #333;*/
 }
 body {
   /*color: #fff;*/
   color:#000;
   text-align: center;
   text-shadow: 0 1px 3px rgba(0,0,0,.1);
+  background-color: rgba(0, 0, 0, 0);
 }
 
 /* Extra markup and styles for table-esque vertical and horizontal centering */
@@ -139,7 +137,8 @@ footer {
     z-index: 3;
     /*background-color: #333;*/
     padding: 0 2%;
-    background-color: #000;
+    background-color: #FF6600;
+    background-color: black;
   }
   .mastfoot {
     position: fixed;
@@ -209,8 +208,9 @@ button {
 }
 
 body {
-/*  font-family: 'Noto Sans', sans-serif; */
-  font-family: 'Muli', sans-serif;
+  /*font-family: 'Noto Sans', sans-serif; */
+  font-family: 'Muli', sans-serif; 
+ /* font-family: 'Crimson Text', serif;*/
 }
 
 .fancybox-buttons {
@@ -226,4 +226,14 @@ body {
 
 .fancy-add {
   background-color: #CCFFFF;
+}
+
+html {
+  /* http://www.fullhdwpp.com/wp-content/uploads/Geometric-Multicolor_www.FullHDWpp.com_.jpg
+  background: url('http://2.bp.blogspot.com/-xmjmQzG1SE8/VC2L9UZNYbI/AAAAAAAAikU/QGO0KFnjANk/s1600/Abstract%2BTriangles%2BWallpapers%2B2.jpg') no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  */
 }

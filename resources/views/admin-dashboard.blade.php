@@ -20,9 +20,9 @@
                         @endforeach
                     </select>
                 </div>
-                <span class="edit-button" onclick="editCompany('{{ url("dashboard/edit-company") }}'); return false;">EDIT</span>
-                <span class="edit-button" onclick="confirmDeleteCompany('{{ url("dashboard/delete-company") }}'); return false;">DELETE</span>
-                <a class="iframes edit-button" data-fancybox-type="iframe" href="{{ url('dashboard/create-company') }}">NEW</a>
+                <span class="edit-button" onclick="editCompany('{{ url("dashboard/edit-company") }}'); return false;">Edit</span>
+                <span class="edit-button" onclick="confirmDeleteCompany('{{ url("dashboard/delete-company") }}'); return false;">Delete</span>
+                <a class="edit-button" data-fancybox-type="iframe" id="create-company" href="{{ url('dashboard/create-company') }}">New</a>
             </div>
             <hr/>
             <div class="create-div">
@@ -34,9 +34,9 @@
                             @endforeach
                         </select>
                     </div>
-                    <span class="edit-button">EDIT</span>
-                    <span class="edit-button">DELETE</span>
-                    <span class="edit-button">NEW</span>
+                    <span class="edit-button" onclick="editPosition('{{ url("dashboard/edit-position") }}'); return false;">Edit</span>
+                    <span class="edit-button" onclick="confirmDeletePosition('{{ url("dashboard/delete-position") }}'); return false;">Delete</span>
+                    <a class="edit-button" data-fancybox-type="iframe" id="create-position" href="{{ url('dashboard/create-position') }}">New</a>
             </div>
             <hr/>
             <div class="create-div">
@@ -48,9 +48,9 @@
                             @endforeach
                         </select>
                     </div>
-                    <span class="edit-button">EDIT</span>
-                    <span class="edit-button">DELETE</span>
-                    <span class="edit-button">NEW</span>
+                    <span class="edit-button" onclick="editCity('{{ url("dashboard/edit-city") }}'); return false;">Edit</span>
+                    <span class="edit-button" onclick="confirmDeleteCity('{{ url("dashboard/delete-city") }}'); return false;">Delete</span>
+                    <a class="edit-button" data-fancybox-type="iframe" id="create-city" href="{{ url('dashboard/create-city') }}">New</a>
             </div>
         </div>   
           
@@ -86,37 +86,41 @@
 								@endif
 								
 								@if ($review->future_work == 0)
-									<span class="glyphicon glyphicon-briefcase review-icon neg-review-rating future_work_icon"></span>
+									<span class="glyphicon glyphicon-briefcase review-icon neg-review-rating"></span>
 								@else
-									<span class="glyphicon glyphicon-briefcase review-icon title-icon-work future_work_icon"></span>
+									<span class="glyphicon glyphicon-briefcase review-icon title-icon-work"></span>
 								@endif
-                                
-                                @if ($review->recommend == 0)
+								
+								@if ($review->recommend == 0)
 									<span class="glyphicon glyphicon-thumbs-up review-icon neg-review-rating"></span>
 								@else
 									<span class="glyphicon glyphicon-thumbs-up review-icon title-icon-recommend"></span>
 								@endif
 							</span>
 						</div>
-						<br/>
-						<span class="review-title" style="float:left;">{{ $review->position->name }} at {{ $review->city->name }}, {{ $review->state->abbreviation }}</span>
-						<span class="post-date">Posted {{ DATE_FORMAT(new DateTime($review->created_at), 'n/j/y') }}</span>
-						<div style="clear:both"></div>
-						<span class="intern-date">{{ DATE_FORMAT(new DateTime($review->intern_start), 'F Y') }} - {{ DATE_FORMAT(new DateTime($review->intern_end), 'F Y') }}</span>
-						<div class="clear"></div>
-						<table>
-							<col class="pros-table-col" width="50%">
-							<col class="cons-table-col" width="50%">
-							<tr>
-								<td class="pro"><span class="pro-text">PROS</span></td>
-								<td class="pro"><span class="con-text">CONS</span></td>
-								
-							</tr>
-							<tr>
-								<td>{{ $review->pros }}</td>
-								<td>{{ $review->cons }}</td>
-							</tr>
-						</table>
+						
+						<div class="bottom-review">
+							<br/>
+							<span class="review-title" style="float:left;">{{ $review->position->name }} in {{ $review->city->name }}, {{ $review->state->abbreviation }}</span>
+							<span class="post-date">Posted {{ DATE_FORMAT(new DateTime($review->created_at), 'n/j/y') }}</span>
+							<div style="clear:both"></div>
+							<span class="intern-date">{{ DATE_FORMAT(new DateTime($review->intern_start), 'F Y') }} - {{ DATE_FORMAT(new DateTime($review->intern_end), 'F Y') }}</span>
+							<div class="clear"></div>
+							<hr class="review-hr"/>
+							<table>
+								<col class="pros-table-col" width="50%">
+								<col class="cons-table-col" width="50%">
+								<tr>
+									<td class="pro"><span class="pro-text">PROS</span></td>
+									<td class="pro"><span class="con-text">CONS</span></td>
+									
+								</tr>
+								<tr>
+									<td>{{ $review->pros }}</td>
+									<td>{{ $review->cons }}</td>
+								</tr>
+							</table>
+						</div>
 					</div>
 				@endforeach
 				<hr/>

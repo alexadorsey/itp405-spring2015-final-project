@@ -34,4 +34,11 @@ textarea {
 
 #right-col {
     text-align: center;
+    margin-left: 20px;
+    margin-right: 20px;
+    width: 73%;
+}
+
+#right-col h1 {
+    margin-right: 20px;
 }

@@ -1,6 +1,8 @@
 $(document).ready(function() {
+	$('#company-input').val("");
 	$('#position-input').val("");
 	$('#location-input').val("");
+	$('#company-id').val("");
 	$('#position-id').val("");
 });
 

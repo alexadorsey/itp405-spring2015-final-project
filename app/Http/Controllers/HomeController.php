@@ -18,35 +18,6 @@ use Illuminate\Support\Facades\Cache;
 
 
 class HomeController extends Controller {
-
-	/*
-	|--------------------------------------------------------------------------
-	| Home Controller
-	|--------------------------------------------------------------------------
-	|
-	| This controller renders your application's "dashboard" for users that
-	| are authenticated. Of course, you are free to change or remove the
-	| controller as you wish. It is just here to get your app started!
-	|
-	*/
-
-	/**
-	 * Create a new controller instance.
-	 *
-	 * @return void
-	 */
-    /*
-	public function __construct()
-	{
-		$this->middleware('auth');
-	}
-	*/
-
-	/**
-	 * Show the application dashboard to the user.
-	 *
-	 * @return Response
-	 */
 	
 	private $devkey = "WDHQ43364147NGQQZP5R";
 	
@@ -67,68 +38,77 @@ class HomeController extends Controller {
 			'states' => $states
         ]);
     }
-
 	
 	
-    /**************************************/
-	/* Sort Results */
-	public function searchSortBy($method, Request $request) {
-		$reviews = $request->input('reviews');
-		//$reviews = Input::get('reviews');
-		dd($reviews);
-		/*
-		$order = Input::get('order');
-		$revs = Input::get('reviews');
-		$reviews = new Collection;
+	/**************************************/
+	/* Company Info */
+	public function companyInfo($company_name) {
+		$company = Company::where('name', '=', $company_name)->first();
+		$cities = $company->cities()->get();
+		$states = $company->states()->get();
+		$images = $company->images()->get();
+		$reviews = $company->approvedReviews()->orderBy('created_at', 'DESC')->get();
+		$reviews->load('position', 'city', 'state');
 		
-		foreach ($revs as $review) {
-			$reviews->add(new Collection($review));
-		}
+		/* Company Statistics */
+		Company::setStats($reviews);
 		
-		if ($order == 'company_rating_high') {
-			$reviews->sortByDesc(function($review) {
-				return Company::find($review['company_id'])->recommend_percent();
-			});
-		}
-		elseif ($order == 'company_rating_low') {
-			$reviews->sortBy(function($review) {
-				return Company::find($review['company_id'])->recommend_percent();
-			});
-		}
-		elseif ($order == 'date_posted_newest') {
-			$reviews->sortByDesc('created_at');
-		}
-		elseif ($order == 'date_posted_oldest') {
-			$reviews->sortBy('created_at');
-		}
-		
-		$data = ['reviews'=>$reviews->reverse()->reverse()];
-		
-		if ($request->ajax()){
-			return Response::json(['success'=>true,'data'=>$data]);
+		/* Internships at that company */
+		$url = "http://api.careerbuilder.com/v1/jobsearch?DeveloperKey=" . $this->devkey . "&JobTitle=intern";
+		$url .= "&CompanyName=". urlencode($company->name);
+		$cache_string = "jobs-" . $company->name;
+				
+		if (Cache::has($cache_string)) { // if in cache and hasn't expired yet
+			$json = Cache::get($cache_string);
 		} else {
-			return Response::json(['success'=>false,'data'=>$data]);
+			$xml = simplexml_load_string(file_get_contents($url));
+			$json = json_encode($xml);
+			Cache::put($cache_string, $json, 180) ;
 		}
-		*/
+		
+		$jobs = json_decode($json,TRUE);
+		if (count($jobs["Results"]) > 0) {
+			$jobs = $jobs["Results"]["JobSearchResult"];
+		} else {
+			$jobs = [];
+		}
+		return view('company', [
+			'title' => $company->company_name . 'Profile',
+			'company' => $company,
+			'reviews' => $reviews,
+			'cities' => $cities,
+			'states' => $states,
+			'images' => $images,
+			'recommend_rating' => Company::$recommend_rating,
+			'compensation_rating' => Company::$compensation_rating,
+			'fair_hours_rating' => Company::$fair_hours_rating,
+			'future_work_rating' => Company::$future_work_rating,
+			'jobs' => $jobs
+		]);
 	}
 	
 	
-	
+    /**************************************/
+	/* Search */
 	public function search(Request $request) {
 		
 		$url = "http://api.careerbuilder.com/v1/jobsearch?DeveloperKey=" . $this->devkey . "&JobTitle=intern";
 		
 		$cache_string = "jobs-";
 		
+		$company_id = $request->input('company-id');
 		$position_id = $request->input('position-id');
-		$location_val = $request->input('location-input');
+		$location_val = $request->input('City');
 		$order = $request->input('order');
-				
 		$position = null;
 		$location = null;
 		$reviews = null;
+		if ($company_id != "") {
+			$company_name = Company::find($company_id)->name;
+			return $this->companyInfo($company_name);
+		}
 		
-		if ($position_id) {
+		if ($position_id != "") {
 			$position = Position::find($position_id);
 			$reviews_position = $position->approvedReviews()->orderBy('created_at', 'DESC')->get();
 		}
@@ -173,10 +153,12 @@ class HomeController extends Controller {
 			Cache::put($cache_string, $json, 180) ;
 		}
 		
-		$jobs = json_decode($json,TRUE);
+		$jobs = json_decode($json, TRUE);
 		$jobs = $jobs["Results"]["JobSearchResult"];
-
-
+		if (count($jobs) == 29) {
+			$jobs = [$jobs];
+		}
+		
 		return view('search-position', [
 			'title' => 'Search Results',
 			'position' => $position,
@@ -185,7 +167,6 @@ class HomeController extends Controller {
 			'jobs' => $jobs,
 			'order' => $order
         ]);
-
 	}
 	
 	
@@ -194,14 +175,10 @@ class HomeController extends Controller {
 	public function review() {
 		
 		if (!Auth::check()) {
-			//return redirect('login');
+			return redirect('login');
 			
 		}
 		
-		/*
-		$company_id = \Illuminate\Support\Facades\Request::input('company_id');
-		$company = Company::find($company_id);
-		*/
 		$companies = Company::all();
 		$positions = Position::all();
 		$cities = City::all();
@@ -225,12 +202,6 @@ class HomeController extends Controller {
 		} else {
 			$jobs = [];
 		}
-		
-		/*
-		$url = "https://api.insideview.com/api/v1/companies";
-		$jsonString = file_get_contents($url);
-		dd($jsonString);
-		*/
 		
 		return view('review', [
 			'title' => 'Review an Intership',
@@ -433,59 +404,15 @@ class HomeController extends Controller {
 	
 	
 	/**************************************/
-	/* Company Info */
-	public function companyInfo($company_name) {
-		$company = Company::where('name', '=', $company_name)->first();
-		//$company->load('city', 'state');
-		$cities = $company->cities()->get();
-		$states = $company->states()->get();
-		$images = $company->images()->get();
-		$reviews = $company->reviews()->where("approved", "=", 1)->orderBy('created_at', 'DESC')->get();
-		$reviews->load('position', 'city', 'state');
-		
-		/* Company Statistics */
-		Company::setStats($reviews);
-		
-		/* Internships at that company */
-		$url = "http://api.careerbuilder.com/v1/jobsearch?DeveloperKey=" . $this->devkey . "&JobTitle=intern";
-		$url .= "&CompanyName=". urlencode($company->name);
-		$cache_string = "jobs-" . $company->name;
-				
-		if (Cache::has($cache_string)) { // if in cache and hasn't expired yet
-			$json = Cache::get($cache_string);
-		} else {
-			$xml = simplexml_load_string(file_get_contents($url));
-			$json = json_encode($xml);
-			Cache::put($cache_string, $json, 180) ;
-		}
-		
-		$jobs = json_decode($json,TRUE);
-		if (count($jobs["Results"]) > 0) {
-			$jobs = $jobs["Results"]["JobSearchResult"];
-		} else {
-			$jobs = [];
-		}
-		
-		return view('company', [
-			'title' => $company->company_name . 'Profile',
-			'company' => $company,
-			'reviews' => $reviews,
-			'cities' => $cities,
-			'states' => $states,
-			'images' => $images,
-			'recommend_rating' => Company::$recommend_rating,
-			'compensation_rating' => Company::$compensation_rating,
-			'fair_hours_rating' => Company::$fair_hours_rating,
-			'future_work_rating' => Company::$future_work_rating,
-			'jobs' => $jobs
-		]);
-	}
-	
-	
-	/**************************************/
 	/* Companies */
-	public function companies() {
+	public function companies(Request $request) {
 		$companies = Company::all();
+		$order = $request->input('order');
+		if (!$order) {
+			$order = 'company_rating_high';
+		}
+
+		$companies = Company::sortByOrder($companies, $order);
 		
 		/* All internships */
 		$url = "http://api.careerbuilder.com/v1/jobsearch?DeveloperKey=" . $this->devkey . "&JobTitle=intern";
@@ -505,11 +432,12 @@ class HomeController extends Controller {
 		} else {
 			$jobs = [];
 		}
-		
+				
 		return view('companies', [
 			'title' => 'Companies',
 			'companies' => $companies,
-			'jobs' => $jobs
+			'jobs' => $jobs,
+			'order' => $order
 		]);
 	}
 	
@@ -547,7 +475,6 @@ class HomeController extends Controller {
 	/* Edit a company */
 	public function editCompany($company_id) {
 		$company = Company::find($company_id);
-		
 		return view('edit-company', [
 			'title' => 'Edit Company',
 			'company' => $company
@@ -563,27 +490,114 @@ class HomeController extends Controller {
 			$company->icon = $icon;
 		}
 		$company->save();
-		
 		return redirect('/dashboard/edit-company/' . $company->id)->with('success', $company->name . ' successfully edited.');
-		//return redirect('/dashboard')->with('success', $company->name . ' successfully edited.');
 	}
 	
 	/* Delete a company */
 	public function deleteCompany($company_id) {
-		
 		// Get company
 		$company = Company::find($company_id);
-		
 		// Delete reviews of company
 		$reviews = $company->reviews()->get();
 		foreach ($reviews as $review) {
 			$review->delete();
 		}
-		
 		// Delete company
 		$company->delete();
-		
 		return redirect(url('dashboard'))->with('success', $company->name . ' successfully deleted.');
 	}
+	
+	
+	
+	
+	/* Create a position */
+	public function createPosition() {
+		return view('create-position', [
+			'title' => 'Create Position',
+		]);
+	}
+	
+	public function postCreatePosition(Request $request) {
+		$validation = Position::validate($request->all());
+		if (!$validation->passes()) {
+			return redirect('/dashboard/create-position')
+                ->withInput()
+                ->withErrors($validation);
+		}
+		$position = new Position();
+		$position->name = $request->input('name');
+		$position->save();
+		
+		return redirect('/dashboard/create-position')->with('success', $position->name . ' successfully added.');
+	}
+	
+	/* Edit a position */
+	public function editPosition($position_id) {
+		$position = Position::find($position_id);
+		return view('edit-position', [
+			'title' => 'Edit Position',
+			'position' => $position
+        ]);
+	}
+	
+	public function postEditPosition($position_id, Request $request) {
+		$position = Position::find($position_id);
+		$position->name = $request->input('position-name');
+		$position->save();
+		return redirect('/dashboard/edit-position/' . $position->id)->with('success', $position->name . ' successfully edited.');
+	}
+	
+	/* Delete a position */
+	public function deletePosition($position_id) {
+		$position = Position::find($position_id);
+		$position->delete();
+		return redirect(url('dashboard'))->with('success', $position->name . ' successfully deleted.');
+	}
+	
+	
+	/* Create a city */
+	public function createCity() {
+		return view('create-city', [
+			'title' => 'Create City',
+		]);
+	}
+	
+	public function postCreateCity(Request $request) {
+		$validation = City::validate($request->all());
+		if (!$validation->passes()) {
+			return redirect('/dashboard/create-city')
+                ->withInput()
+                ->withErrors($validation);
+		}
+		$city = new City();
+		$city->name = $request->input('name');
+		$city->save();
+		
+		return redirect('/dashboard/create-city')->with('success', $city->name . ' successfully added.');
+	}
+	
+	/* Edit a position */
+	public function editCity($city_id) {
+		$city = City::find($city_id);
+		return view('edit-city', [
+			'title' => 'Edit City',
+			'city' => $city
+        ]);
+	}
+	
+	public function postEditCity($city_id, Request $request) {
+		$city = City::find($position_id);
+		$city->name = $request->input('city-name');
+		$city->save();
+		return redirect('/dashboard/edit-city/' . $city->id)->with('success', $city->name . ' successfully edited.');
+	}
+	
+	/* Delete a position */
+	public function deleteCity($city_id) {
+		$city = City::find($city_id);
+		$city->delete();
+		return redirect(url('dashboard'))->with('success', $city->name . ' successfully deleted.');
+	}
+	
 	
 }

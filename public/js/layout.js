@@ -29,6 +29,36 @@ $(function() {
 		closeEffect	: 'none'
     });
 	
+	$('#create-company').fancybox({
+        fitToView	: false,
+		width		: '440',
+		height		: '350',
+		autoSize	: false,
+		closeClick	: false,
+		openEffect	: 'none',
+		closeEffect	: 'none'
+    });
+	
+	$('#create-position').fancybox({
+        fitToView	: false,
+		width		: '440',
+		height		: '250',
+		autoSize	: false,
+		closeClick	: false,
+		openEffect	: 'none',
+		closeEffect	: 'none'
+    });
+	
+	$('#create-city').fancybox({
+        fitToView	: false,
+		width		: '440',
+		height		: '250',
+		autoSize	: false,
+		closeClick	: false,
+		openEffect	: 'none',
+		closeEffect	: 'none'
+    });
+	
 	$.ajaxSetup({
         headers: {
             'X-CSRF-Token': $('meta[name="_token"]').attr('content')
