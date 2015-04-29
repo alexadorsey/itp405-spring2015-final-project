@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('assets')
-	<link rel="stylesheet" href="{{ secure_asset('css/home.css') }}" type="text/css">
+	<link rel="stylesheet" href="{{ asset('css/home.css') }}" type="text/css">
 @stop
 
 @include('header')
@@ -75,5 +75,5 @@
 
 	
 @section('javascript')
-	<script type="text/javascript" src="{{ secure_asset('js/home.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('js/home.js') }}"></script>
 @stop
