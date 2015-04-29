@@ -48,6 +48,8 @@
 				</span>
 				
 				<form id="sort-reviews" method="get">
+					<input type="hidden" name="position-id" id="position-id" value="{{ $position_id }}">
+					<input type="hidden" name="City" id="City" value="{{ $location_val }}">
 					<input type="hidden" name="order" id="order" value="{{ $order }}">
 					@if ($position)
 						<input type="hidden" id="position-id" name="position-id" value="{{ $position->id }}">

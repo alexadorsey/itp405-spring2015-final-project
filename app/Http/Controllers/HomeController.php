@@ -162,7 +162,9 @@ class HomeController extends Controller {
 		return view('search-position', [
 			'title' => 'Search Results',
 			'position' => $position,
+			'position_id' =>$position_id,
 			'location' => $location,
+			'location_val' => $location_val,
 			'reviews' => $reviews,
 			'jobs' => $jobs,
 			'order' => $order

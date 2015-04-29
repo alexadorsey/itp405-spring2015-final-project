@@ -41,7 +41,7 @@
                     @else
                         <div class="review" id="review-{{ $review->id }}">
                     @endif
-                    @if ($reivew->approved == 0 || $review->approved == 1)
+                    @if ($review->approved == 0 || $review->approved == 1)
 						<div class="top-review-row">
 							@if ($review->company->icon)
 							   <img class="company-logo" src="{{ $review->company->icon }}"/>
