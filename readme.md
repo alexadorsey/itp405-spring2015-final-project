@@ -1,9 +1,15 @@
-Alexa Dorsey
-ITP405 - Profession Applications and Frameworks in Web Development
-Spring 2015, David Tang
+Alexa Dorsey  
+ITP405 - Professional Applications and Frameworks in Web Development  
+Spring 2015, David Tang  
 
-Final Project
+Final Project:  
 A website where people can read and write reviews on their internship experiences.
 
-Unit Tests
+Website URL:  
+http://itp405-final-project.herokuapp.com/home
+
+Video Demo:  
+https://vimeo.com/126356897
+
+Unit Tests:  
 ![alt tag](https://travis-ci.org/alexadorsey/itp405-spring2015-final-project.svg?branch=master)

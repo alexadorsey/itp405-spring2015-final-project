@@ -14,7 +14,8 @@
 	</div>
 		
 	<br/>	
-	<form method="get" action="/search">
+	<form method="post" action="/search">
+		<input type="hidden" name="_token" value="{{ csrf_token() }}">
 		<input type="hidden" name="order" id="order" value="date_posted_newest">
 		<div id="search-box">
 		

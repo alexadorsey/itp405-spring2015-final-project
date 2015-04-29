@@ -47,7 +47,8 @@
 					@endif
 				</span>
 				
-				<form id="sort-reviews" method="get">
+				<form id="sort-reviews" method="post">
+					<input type="hidden" name="_token" value="{{ csrf_token() }}">
 					<input type="hidden" name="position-id" id="position-id" value="{{ $position_id }}">
 					<input type="hidden" name="City" id="City" value="{{ $location_val }}">
 					<input type="hidden" name="order" id="order" value="{{ $order }}">

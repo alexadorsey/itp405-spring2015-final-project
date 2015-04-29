@@ -1,53 +1,46 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
-|
-*/
 
 Route::get('home', 'HomeController@home');
-Route::get('search', 'HomeController@search');
-Route::get('dashboard', 'HomeController@dashboard');
-Route::get('/dashboard/deleteReview/{review_id}', 'HomeController@deleteReview');
-
+Route::post('search', 'HomeController@search');
 
 /* Admin Page */
-Route::get('/dashboard/create-company', 'HomeController@createCompany');
-Route::post('/dashboard/create-company', 'HomeController@postCreateCompany');
-Route::get('/dashboard/edit-company/{company_id}', 'HomeController@editCompany');
-Route::post('/dashboard/edit-company/{company_id}', 'HomeController@postEditCompany');
-Route::get('/dashboard/delete-company/{company_id}', 'HomeController@deleteCompany');
+Route::get('dashboard', 'DashboardController@dashboard');
+Route::get('/dashboard/deleteReview/{review_id}', 'DashboardController@deleteReview');
 
-Route::get('/dashboard/create-position', 'HomeController@createPosition');
-Route::post('/dashboard/create-position', 'HomeController@postCreatePosition');
-Route::get('/dashboard/edit-position/{position_id}', 'HomeController@editPosition');
-Route::post('/dashboard/edit-position/{position_id}', 'HomeController@postEditPosition');
-Route::get('/dashboard/delete-position/{position_id}', 'HomeController@deletePosition');
+Route::get('/dashboard/create-company', 'DashboardController@createCompany');
+Route::post('/dashboard/create-company', 'DashboardController@postCreateCompany');
+Route::get('/dashboard/edit-company/{company_id}', 'DashboardController@editCompany');
+Route::post('/dashboard/edit-company/{company_id}', 'DashboardController@postEditCompany');
+Route::get('/dashboard/delete-company/{company_id}', 'DashboardController@deleteCompany');
 
-Route::get('/dashboard/create-city', 'HomeController@createCity');
-Route::post('/dashboard/create-city', 'HomeController@postCreateCity');
-Route::get('/dashboard/edit-city/{city_id}', 'HomeController@editCity');
-Route::post('/dashboard/edit-city/{city_id}', 'HomeController@postEditCity');
-Route::get('/dashboard/delete-city/{city_id}', 'HomeController@deleteCity');
+Route::get('/dashboard/create-position', 'DashboardController@createPosition');
+Route::post('/dashboard/create-position', 'DashboardController@postCreatePosition');
+Route::get('/dashboard/edit-position/{position_id}', 'DashboardController@editPosition');
+Route::post('/dashboard/edit-position/{position_id}', 'DashboardController@postEditPosition');
+Route::get('/dashboard/delete-position/{position_id}', 'DashboardController@deletePosition');
+
+Route::get('/dashboard/create-city', 'DashboardController@createCity');
+Route::post('/dashboard/create-city', 'DashboardController@postCreateCity');
+Route::get('/dashboard/edit-city/{city_id}', 'DashboardController@editCity');
+Route::post('/dashboard/edit-city/{city_id}', 'DashboardController@postEditCity');
+Route::get('/dashboard/delete-city/{city_id}', 'DashboardController@deleteCity');
+
+Route::post('/dashboard/approve-review/{review_id}', 'DashboardController@approveReview');
+Route::post('/dashboard/disapprove-review/{review_id}', 'DashboardController@disapproveReview');
 
 
-
-Route::post('/dashboard/approve-review/{review_id}', 'HomeController@approveReview');
-Route::post('/dashboard/disapprove-review/{review_id}', 'HomeController@disapproveReview');
-
-
+/* Company Profile Page */
 Route::get('/company/{company_name}', 'HomeController@companyInfo');
 Route::get('/companies', 'HomeController@companies');
 
-Route::post('review', 'HomeController@postReview');
-Route::get('review', 'HomeController@review');
 
+/* Review Page */
+Route::post('review', 'ReviewController@postReview');
+Route::get('review', 'ReviewController@review');
+
+
+/* Login Page */
 Route::get('signup', 'LoginController@signup');
 Route::post('signup', 'LoginController@postSignup');
 Route::get('login', 'LoginController@login');
@@ -56,11 +49,3 @@ Route::get('logout', 'LoginController@logout');
 
 
 Route::get('/', 'WelcomeController@index');
-/*
-Route::get('home', 'HomeController@index');
-
-Route::controllers([
-	'auth' => 'Auth\AuthController',
-	'password' => 'Auth\PasswordController',
-]);
-*/
