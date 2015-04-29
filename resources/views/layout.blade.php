@@ -8,7 +8,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 	<link rel="stylesheet" href="{{ asset('fancyBox/source/jquery.fancybox.css') }}" type="text/css" media="screen" />
-	<link href='//fonts.googleapis.com/css?family=Muli' rel='stylesheet' type='text/css'>
+	<link href='//fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+	<link href='//fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
+	<link href='//fonts.googleapis.com/css?family=Hind|Muli' rel='stylesheet' type='text/css'>
+	<link href='//fonts.googleapis.com/css?family=Alegreya|Crimson+Text' rel='stylesheet' type='text/css'>	<link rel="stylesheet" href="{{ asset('css/cover.css') }}" type="text/css">
 	@yield('assets')
 	
 </head>
