@@ -2,7 +2,7 @@
 
 
 Route::get('home', 'HomeController@home');
-Route::post('search', 'HomeController@search');
+Route::post('/search', 'HomeController@search');
 
 /* Admin Page */
 Route::get('dashboard', 'DashboardController@dashboard');
@@ -48,4 +48,4 @@ Route::post('login', 'LoginController@postLogin');
 Route::get('logout', 'LoginController@logout');
 
 
-Route::get('/', 'WelcomeController@index');
+Route::get('/', 'HomeController@home');

@@ -100,13 +100,20 @@ class HomeController extends Controller {
 		$position_id = $request->input('position-id');
 		$location_val = $request->input('City');
 		$order = $request->input('order');
+        
+        $company = null;
 		$position = null;
 		$location = null;
 		$reviews = null;
-		if ($company_id != "") {
+		if ($company_id != "" && $position_id == "" && $location_val == "") {
 			$company_name = Company::find($company_id)->name;
 			return $this->companyInfo($company_name);
 		}
+        
+        if ($company_id != "") {
+            $company = Company::find($company_id);
+            $reviews_company = $company->approvedReviews()->orderBy('created_at', 'DESC')->get();
+        }
 		
 		if ($position_id != "") {
 			$position = Position::find($position_id);
@@ -125,6 +132,7 @@ class HomeController extends Controller {
 			}
 		}
 		
+        
 		if ($position_id && $location_val) {
 			// intersect
 			$reviews = $reviews_position->intersect($reviews_location);
@@ -141,6 +149,11 @@ class HomeController extends Controller {
 		} else {
 			$reviews = Review::where("approved", "=", 1)->get();
 		}
+                
+        // intersect with company
+        if ($company_id != "") {
+            $reviews = $reviews->intersect($reviews_company);
+        }
 		
 		$reviews->load('company', 'position', 'city', 'state');
 		$reviews = Review::sortByOrder($reviews, $order);
@@ -154,13 +167,19 @@ class HomeController extends Controller {
 		}
 		
 		$jobs = json_decode($json, TRUE);
-		$jobs = $jobs["Results"]["JobSearchResult"];
-		if (count($jobs) == 29) {
-			$jobs = [$jobs];
-		}
+        if (count($jobs["Results"]) > 0) {
+            $jobs = $jobs["Results"]["JobSearchResult"];
+            if (count($jobs) == 29) {
+                $jobs = [$jobs];
+            }    
+        } else {
+            $jobs = [];
+        }
+		
 		
 		return view('search-position', [
 			'title' => 'Search Results',
+            'company' => $company,
 			'position' => $position,
 			'position_id' =>$position_id,
 			'location' => $location,

@@ -3,7 +3,7 @@
 @section('assets')
 	<link rel="stylesheet" href="{{ asset('css/search-position.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/companies.css') }}" type="text/css">
-	<script type="text/javascript" src="{{ asset('js/search.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/js/search.js') }}"></script>
 @stop
 
 @include('header');
@@ -44,12 +44,13 @@
 				<input type="hidden" name="order" id="order" value="{{ $order }}">	
 				<div id="review-sort">	
 					<span>Sort by:</span>
-					<select id="sort-by-options">
+					<select id="sort-by-options" onchange="sortReviews(this.value)">
 						<script>
 							setSortByCompanies('{{ $order }}')
 						</script>
 					</select>
 				</div>
+				<button style="visibility: hidden" type="submit">Click me</button>
 			</form>
 		</div>
 		<div class="clear"></div>
@@ -129,8 +130,7 @@
 @section('javascript')
 	<script type="text/javascript" src="{{ asset('fancybox/lib/jquery.mousewheel-3.0.6.pack.js') }}"></script>
     <script type="text/javascript" src="{{ asset('fancyBox/source/jquery.fancybox.pack.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('js/home.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/search.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/js/home.js') }}"></script>
 @stop
 
 

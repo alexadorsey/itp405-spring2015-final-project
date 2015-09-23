@@ -6,7 +6,7 @@ Final Project:
 A website where people can read and write reviews on their internship experiences.
 
 Website URL:  
-http://itp405-final-project.herokuapp.com/home
+http://alexadorsey.com/websites/itp405-spring2015-final-project/public/
 
 Video Demo:  
 https://vimeo.com/126356897

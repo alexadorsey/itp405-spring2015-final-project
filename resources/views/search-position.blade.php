@@ -2,7 +2,7 @@
 
 @section('assets')
     <link rel="stylesheet" href="{{ asset('css/search-position.css') }}" type="text/css">
-	<script type="text/javascript" src="{{ asset('js/search.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/js/search.js') }}"></script>
 @stop
 
 @include('header')
@@ -36,6 +36,9 @@
 					@else
 						reviews
 					@endif
+					@if ($company)
+						for '{{ $company->name }}'
+					@endif
 					@if ($position)
 						for '{{ $position->name }}'
 					@endif
@@ -66,7 +69,7 @@
 					
 					<div id="review-sort">	
 						<span>Sort by: </span>
-						<select id="sort-by-options">
+						<select id="sort-by-options" onchange="sortReviews(this.value)">
 							<script>
 								setSortBy('{{ $order }}')
 							</script>
@@ -146,7 +149,7 @@
 @section('javascript')
 	<script type="text/javascript" src="{{ asset('fancybox/lib/jquery.mousewheel-3.0.6.pack.js') }}"></script>
     <script type="text/javascript" src="{{ asset('fancyBox/source/jquery.fancybox.pack.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('js/home.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/js/home.js') }}"></script>
 @stop
 
 

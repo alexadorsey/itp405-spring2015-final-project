@@ -7,7 +7,7 @@ $(document).ready(function() {
 });
 
 function getCompanyValue() {
-	var x = $('#company-input').val();
+	var x = $('#company-input').val().toLowerCase();
     var z = $('#company');
     var val = $(z).find('option[value="' + x + '"]');
     var company_id = val.attr('id');
@@ -15,7 +15,7 @@ function getCompanyValue() {
 }
 		
 function getPositionValue() {
-    var x = $('#position-input').val();
+    var x = $('#position-input').val().toLowerCase();
     var z = $('#position');
     var val = $(z).find('option[value="' + x + '"]');
     var position_id = val.attr('id');
@@ -23,7 +23,7 @@ function getPositionValue() {
 }
 		
 function getLocationValue() {
-    var x = $('#location-input').val();
+    var x = $('#location-input').val().toLowerCase();
     var z = $('#location');
     var val = $(z).find('option[value="' + x + '"]');
     var location_id = val.attr('id');
